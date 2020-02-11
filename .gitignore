@@ -1,4 +1,8 @@
 
-__pycache__/parse.cpython-37.pyc
+*.pyc
 
-projectX.code-workspace
+.DS_Store
+
+*.html
+
+*.code-workspace
