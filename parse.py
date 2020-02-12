@@ -16,7 +16,7 @@ def parse():
     parser.add_argument('-f', '--footprinting', action="store_true", help="footprinting WAF using WAFWOOF")
     parser.add_argument('-u', '--url', type=str, required=True, help="Target's WAF using WAFWOOF")
     parser.add_argument('-d', '--database', type=str, help="Absolute path to file contain payloads. the tool will use the default database if -d is not given")
-    parser.add_argument('-o', '--output', type=str, help="Name of the output file")
+    parser.add_argument('-o', '--output', type=str, help="Name of the output file ex -o output.html")
     args = parser.parse_args()
     
     target = args.url
@@ -47,12 +47,20 @@ def validateOutput(args):
         file = Path(args.output)
         if file.exists():
             print('[!!] file already exists \nusing default file name')
-            return str(datetime.now()) + '.html'
+            return Path(removeWhiteSpace(datetime.now())).resolve()
+        else:
+            return Path(args.output).resolve()
     else:
-        return str(datetime.now()) + '.html'
+        return Path(removeWhiteSpace(datetime.now())).resolve()
+
 
 def getDefaultData(mode):
     if mode == FUZZ:
         return 'db/fuzz.txt' # TO DO: add defualt path point to db directory
     else:
         return 'db/payload.txt'
+
+def removeWhiteSpace(f):
+    file = str(f)+'.html'
+    file = file.replace(" ", "")
+    return file
