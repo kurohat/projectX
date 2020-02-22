@@ -17,6 +17,7 @@ def parse():
     parser.add_argument('-u', '--url', type=str, required=True, help="Target's WAF using WAFWOOF")
     parser.add_argument('-d', '--database', type=str, help="Absolute path to file contain payloads. the tool will use the default database if -d is not given")
     parser.add_argument('-o', '--output', type=str, help="Name of the output file ex -o output.html")
+    parser.add_argument('-c', '--cookies', type=str, help="cookies for the secssion. use, to separeate cookies")
     args = parser.parse_args()
     
     target = args.url
@@ -24,12 +25,13 @@ def parse():
         return ['WAFWOOF', target]
     else:
         out = validateOutput(args)
+        cookies = args.cookies
         if args.fuzz: #fuzzing
             db = validateDatabase(args, FUZZ)
-            return ['fuzz', target, db, out]
+            return ['fuzz', target, db, out, cookies]
         elif args.payload:
             db = validateDatabase(args, PAYLOAD)
-            return ['payload', target, db, out]
+            return ['payload', target, db, out, cookies]
 
 def validateDatabase(args, mode):
     if args.database is not None: # TO DO: check if file is exist
