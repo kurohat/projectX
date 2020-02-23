@@ -6,12 +6,12 @@ import numpy as np
 import webbrowser
 
 def writeResult(output, results):
-    f = open(output,'w',encoding='utf-8')
+    f = open(output,'w')
     name = []
     status = []
     info = []
     for result in results:
-        name.append(result[0].encode('utf-8'))
+        name.append(result[0].replace('>', '&gt;').replace('<', '&lt;'))
         status.append(result[1])
         info.append(result[2])
     

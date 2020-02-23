@@ -29,7 +29,7 @@ def fire(t,payload,cookie,count):
     # f.close()
     
     # check for status
-    status = False if r.text.find('=alert') == -1 else True
+    status = 'fail' if r.text.find('=alert') == -1 else 'pass'
     result = (payload, status, 'xss')
     return result
 
