@@ -1,9 +1,10 @@
 from parse import parse
+from bs4 import BeautifulSoup
 import db as dbHandler
 import requests
 import json
 
-def fire(t,db,cookie):
+def fire(t,payload,cookie,count):
     """
     GET http://169.254.179.84/ HTTP/1.1
     User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:72.0) Gecko/20100101 Firefox/72.0
@@ -20,25 +21,30 @@ def fire(t,db,cookie):
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Connection": "keep-alive" ,
     "Cookie": cookie}
-    body = {'<x onclick=alert(1)>click this!'}
-    # r = r.prepare()
-    r = requests.get(t, headers=headers)
+    r = requests.get(t+payload, headers=headers)
     # r = requests.post(t, data=json.dumps(body), headers=headers)
-    f = open('test.html','w')
-    f.write(r.text)
-    f.close()
+    # f = open('test'+str(count)+'.html','w')
+    # f.write(r.text)
+    # f.close()
+    status = False if r.text.find('alert') == -1 else True
+    print(status)
 
 args = parse()
 mode, target, dbPath, output, cookies = args
 # fix cookies's format
-cookies = .replace(',', '; ').replace(':', '=') + ";"
+cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
 print('scanning using mode %s' % mode)
 if(mode == 'fuzz' or mode == 'payload'):
     print('the target website is %s' %target)
-    print(dbHandler.readPayload(dbPath))
-    # TO DO: send payload to web
-    fire(target, dbPath, cookies)
-    # TO DO: save result to the file
+
+    count = 0
+    # read payloads
+    with open(dbPath, 'r') as payloads:
+            for payload in payloads:
+                count = count +1
+                print('Line: %s Payload: %s' % (count, payload))
+                fire(target, payload, cookies, count)
+
     print('the result is save in %s' % output)
     # dbHandler.writeResult(output)
     print('DONE')

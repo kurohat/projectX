@@ -10,3 +10,4 @@ table
 - pandas
 - argparse
 - pathlib
+- requests

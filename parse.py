@@ -27,11 +27,11 @@ def parse():
         out = validateOutput(args)
         cookies = args.cookies
         if args.fuzz: #fuzzing
-            db = validateDatabase(args, FUZZ)
-            return ['fuzz', target, db, out, cookies]
+            path = validateDatabase(args, FUZZ)
+            return ['fuzz', target, path, out, cookies]
         elif args.payload:
-            db = validateDatabase(args, PAYLOAD)
-            return ['payload', target, db, out, cookies]
+            path = validateDatabase(args, PAYLOAD)
+            return ['payload', target, path, out, cookies]
 
 def validateDatabase(args, mode):
     if args.database is not None: # TO DO: check if file is exist
@@ -63,6 +63,5 @@ def getDefaultData(mode):
         return 'db/payload.txt'
 
 def removeWhiteSpace(f):
-    file = str(f)+'.html'
-    file = file.replace(" ", "")
+    file = str(f)+'.html'.replace(" ", "")
     return file

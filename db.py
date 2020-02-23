@@ -5,10 +5,6 @@ import pandas as pd
 import numpy as np
 import webbrowser
 
-def readPayload(path):
-    f = open(path)
-    return f.read()
-
 def writeResult(output):
     f = open(output,'w')
     #dummy text

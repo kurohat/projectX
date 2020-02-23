@@ -8,3 +8,7 @@
 *.code-workspace
 
 test.py
+
+.vscode/.ropeproject/config.py
+
+.vscode/.ropeproject/objectdb

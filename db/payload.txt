@@ -1,2 +1,2 @@
-payload
-xoxo
+<x onclick=alert(1)>click this!
+<body onload=alert("gu2washere")>
