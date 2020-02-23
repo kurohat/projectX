@@ -1,5 +1,5 @@
 from parse import parse
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 import db as dbHandler
 import requests
 import json
@@ -23,11 +23,15 @@ def fire(t,payload,cookie,count):
     "Cookie": cookie}
     r = requests.get(t+payload, headers=headers)
     # r = requests.post(t, data=json.dumps(body), headers=headers)
+    # savefile
     # f = open('test'+str(count)+'.html','w')
     # f.write(r.text)
     # f.close()
-    status = False if r.text.find('alert') == -1 else True
-    print(status)
+    
+    # check for status
+    status = False if r.text.find('=alert') == -1 else True
+    result = (payload, status, 'xss')
+    return result
 
 args = parse()
 mode, target, dbPath, output, cookies = args
@@ -38,15 +42,16 @@ if(mode == 'fuzz' or mode == 'payload'):
     print('the target website is %s' %target)
 
     count = 0
+    results = []
     # read payloads
     with open(dbPath, 'r') as payloads:
             for payload in payloads:
-                count = count +1
-                print('Line: %s Payload: %s' % (count, payload))
-                fire(target, payload, cookies, count)
-
+                count = count + 1 
+                result = fire(target, payload, cookies, count)
+                results.append(result)
+    print('Executed %s payloads' % count)
     print('the result is save in %s' % output)
-    # dbHandler.writeResult(output)
+    dbHandler.writeResult(output, results)
     print('DONE')
 else: # run WAFWOOF
     print('woof woof woof')

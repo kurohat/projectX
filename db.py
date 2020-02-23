@@ -5,21 +5,28 @@ import pandas as pd
 import numpy as np
 import webbrowser
 
-def writeResult(output):
-    f = open(output,'w')
-    #dummy text
-    df_marks = pd.DataFrame({'name': ['Somu', 'Kiku', 'Amol', 'Lini'],
-     'physics': ['pass', 'fail', 'pass', 'pass'],
-     'chemistry': [84, 56, 73, 69],
-     'algebra': [78, 88, 82, 87]})
+def writeResult(output, results):
+    f = open(output,'w',encoding='utf-8')
+    name = []
+    status = []
+    info = []
+    for result in results:
+        name.append(result[0].encode('utf-8'))
+        status.append(result[1])
+        info.append(result[2])
+    
+    df_marks = pd.DataFrame({'javascr ipt': name,
+     'Status': status,
+     'Type': info})
 
     # add style to dataframe
-    s = df_marks.style.applymap(color_fail_red, subset=['physics'])
+    s = df_marks.style.applymap(color_fail_red, subset=['Status'])
     # render dataframe as html
+    f.write('')
     f.write(s.render())
     f.close()
     #open file
-    webbrowser.open('file://'+str(output))  # open in new tab
+    webbrowser.open('file://'+str(output))
 
 def color_fail_red(row):
     """
