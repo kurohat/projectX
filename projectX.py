@@ -1,6 +1,7 @@
 from parse import parse
 # from bs4 import BeautifulSoup
 import db as dbHandler
+import urllib.parse
 import requests
 import json
 
@@ -21,21 +22,24 @@ def fire(mode, t,payload,cookie,count):
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Connection": "keep-alive" ,
     "Cookie": cookie}
-    r = requests.get(t.replace('XXX', payload.replace('\n', '')), headers=headers)
     # r = requests.post(t, data=json.dumps(body), headers=headers)
     # savefile
     # f = open('test'+str(count)+'.html','w')
     # f.write(r.text)
     # f.close()
-
-    r = r.text
     # check for status
     if mode == 'xss':
-        status = 'fail' if r.find('=alert') == -1 else 'pass'
-    elif mode == 'sqli':
-        status = 'fail' if r.find('First name: Hack') == -1 else 'pass'
+        r = requests.get(t.replace('XXX', payload.replace('\n', '')), headers=headers)
+        status = 'fail' if r.text.find('=alert') == -1 else 'pass'
+        result = (payload, status, mode)
 
-    result = (payload, status, mode)
+    elif mode == 'sqli':
+        # URL encode
+        payload = urllib.parse.quote(payload.replace('\n', ''))
+        r = requests.get(t.replace('XXX', payload), headers=headers)
+        status = 'fail' if r.text.find('First name: Hack') == -1 else 'pass'
+        result = (urllib.parse.unquote(payload), status, mode)
+        
     return result
 
 args = parse()
