@@ -15,7 +15,7 @@ def writeResult(output, results):
         status.append(result[1])
         info.append(result[2])
     
-    df_marks = pd.DataFrame({'javascr ipt': name,
+    df_marks = pd.DataFrame({'XSS': name,
      'Status': status,
      'Type': info})
 

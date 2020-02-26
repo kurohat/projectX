@@ -38,9 +38,8 @@ mode, target, dbPath, output, cookies = args
 # fix cookies's format
 cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
 print('scanning using mode %s' % mode)
-if(mode == 'fuzz' or mode == 'payload'):
+if(mode == 'fuzz' or mode == 'xss'):
     print('the target website is %s' %target)
-
     count = 0
     results = []
     # read payloads

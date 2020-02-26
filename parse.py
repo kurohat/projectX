@@ -6,13 +6,11 @@ import sys
 from pathlib import Path
 from datetime import datetime
 
-FUZZ = 'fuzz'
-PAYLOAD = 'payload'
-
 def parse():
     parser = argparse.ArgumentParser(description="ProjectX WAF vulnerability scanning tool")
     parser.add_argument('-F', '--fuzz', action="store_true", help="scanning WAF using fuzzing")
-    parser.add_argument('-P', '--payload', action="store_true", help="scanning WAF using payload execution")
+    parser.add_argument('-xss', '--xss', action="store_true", help="scanning WAF by executing xss payloads")
+    parser.add_argument('-sqli', '--sqli', action="store_true", help="scanning WAF by executing xss payloads")
     parser.add_argument('-f', '--footprinting', action="store_true", help="footprinting WAF using WAFWOOF")
     parser.add_argument('-u', '--url', type=str, required=True, help="Target's WAF using WAFWOOF")
     parser.add_argument('-d', '--database', type=str, help="Absolute path to file contain payloads. the tool will use the default database if -d is not given")
@@ -26,23 +24,25 @@ def parse():
     else:
         out = validateOutput(args)
         cookies = args.cookies
+        path = validateDatabase(arg)
         if args.fuzz: #fuzzing
-            path = validateDatabase(args, FUZZ)
             return ['fuzz', target, path, out, cookies]
-        elif args.payload:
-            path = validateDatabase(args, PAYLOAD)
-            return ['payload', target, path, out, cookies]
+        elif args.xss:
+            return ['xss', target, path, out, cookies]
+        elif args.sqli:
+            return ['sqli', target, path, out, cookies]
 
-def validateDatabase(args, mode):
+
+def validateDatabase(args):
     if args.database is not None: # TO DO: check if file is exist
         file = Path(args.database)
         if file.is_file():
             return args.database
         else:
             print('[!!] file not found \nusing default payloads')
-            return getDefaultData(mode)
+            return getDefaultData(args)
     else:
-        return getDefaultData(mode)
+        return getDefaultData(args)
 
 def validateOutput(args):
     if args.output is not None:
@@ -56,12 +56,14 @@ def validateOutput(args):
         return Path(removeWhiteSpace(datetime.now())).resolve()
 
 
-def getDefaultData(mode):
-    if mode == FUZZ:
-        return 'db/fuzz.txt' # TO DO: add defualt path point to db directory
+def getDefaultData(args):
+    if args.fuzz:
+        return 'db/fuzz.txt'
+    elif args.xss:
+        return  'db/xss.txt'
     else:
-        return 'db/payload.txt'
+        return 'db/sqli.txt'
 
 def removeWhiteSpace(f):
-    file = str(f)+'.html'.replace(" ", "")
-    return file
+    fName = str(f)+'.html'.replace(" ", "")
+    return fName
