@@ -24,7 +24,7 @@ def parse():
     else:
         out = validateOutput(args)
         cookies = args.cookies
-        path = validateDatabase(arg)
+        path = validateDatabase(args)
         if args.fuzz: #fuzzing
             return ['fuzz', target, path, out, cookies]
         elif args.xss:

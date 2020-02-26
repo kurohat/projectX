@@ -4,7 +4,7 @@ import db as dbHandler
 import requests
 import json
 
-def fire(t,payload,cookie,count):
+def fire(mode, t,payload,cookie,count):
     """
     GET http://169.254.179.84/ HTTP/1.1
     User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:72.0) Gecko/20100101 Firefox/72.0
@@ -21,16 +21,21 @@ def fire(t,payload,cookie,count):
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "Connection": "keep-alive" ,
     "Cookie": cookie}
-    r = requests.get(t+payload, headers=headers)
+    r = requests.get(t.replace('XXX', payload.replace('\n', '')), headers=headers)
     # r = requests.post(t, data=json.dumps(body), headers=headers)
     # savefile
     # f = open('test'+str(count)+'.html','w')
     # f.write(r.text)
     # f.close()
-    
+
+    r = r.text
     # check for status
-    status = 'fail' if r.text.find('=alert') == -1 else 'pass'
-    result = (payload, status, 'xss')
+    if mode == 'xss':
+        status = 'fail' if r.find('=alert') == -1 else 'pass'
+    elif mode == 'sqli':
+        status = 'fail' if r.find('First name: Hack') == -1 else 'pass'
+
+    result = (payload, status, mode)
     return result
 
 args = parse()
@@ -38,7 +43,9 @@ mode, target, dbPath, output, cookies = args
 # fix cookies's format
 cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
 print('scanning using mode %s' % mode)
-if(mode == 'fuzz' or mode == 'xss'):
+if(mode == 'WAFWOOF'):
+    print('woof woof woof')
+else:
     print('the target website is %s' %target)
     count = 0
     results = []
@@ -46,12 +53,10 @@ if(mode == 'fuzz' or mode == 'xss'):
     with open(dbPath, 'r') as payloads:
             for payload in payloads:
                 count = count + 1 
-                result = fire(target, payload, cookies, count)
+                result = fire(mode, target, payload, cookies, count)
                 results.append(result)
     print('Executed %s payloads' % count)
     print('the result is save in %s' % output)
     dbHandler.writeResult(output, results)
     print('DONE')
-else: # run WAFWOOF
-    print('woof woof woof')
 
