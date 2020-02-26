@@ -17,3 +17,5 @@ or 1=1--
  or a=a
 ') or ('a'='a
 'hi' or 'x'='x';
+hi' or 'x'='x
+1' or 2=2 #
