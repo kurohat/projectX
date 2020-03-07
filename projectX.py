@@ -30,16 +30,29 @@ def fire(mode, t, payload, cookie, count):
     # f.close()
     payload = urllib.parse.quote(payload.replace('\n', ''))
     r = requests.get(t.replace('XXX', payload), headers=headers)
+    
     # check for status
     if mode == 'xss':
         status = 'fail' if r.text.find('=alert') == -1 else 'pass'
     elif mode == 'sqli':
         # URL encode
         status = 'fail' if r.text.find('First name: Hack') == -1 else 'pass'
+    else:
+        status = 'fail' if r.text.find(payload) == -1 else 'pass'
 
     result = (urllib.parse.unquote(payload), status, mode)
     return result
 
+def readPayload(mode, target, dbPath, cookies):
+    count = 0
+    results = []
+    # read payloads
+    with open(dbPath, 'r') as payloads:
+        for payload in payloads:
+            count = count + 1
+            result = fire(mode, target, payload, cookies, count)
+            results.append(result)
+    return results
 
 args = parse()
 mode, target, dbPath, output, cookies = args
@@ -50,15 +63,12 @@ if(mode == 'WAFWOOF'):
     print('woof woof woof')
 else:
     print('the target website is %s' % target)
-    count = 0
-    results = []
-    # read payloads
-    with open(dbPath, 'r') as payloads:
-        for payload in payloads:
-            count = count + 1
-            result = fire(mode, target, payload, cookies, count)
-            results.append(result)
-    print('Executed %s payloads' % count)
+    if dbPath == 'db/fuzz/':
+        results = readPayload('fuzz xss', target, dbPath+'xss.txt', cookies) # read fuzz/xss.txt
+        result2 = readPayload('fuzz sqli', target, dbPath+'sqli.txt', cookies) # read fuzz/sqli.txt then append to the previous results
+        results = results + result2
+    else:
+        results = readPayload(mode, target, dbPath, cookies)
     print('the result is save in %s' % output)
     dbHandler.writeResult(output, results)
     print('DONE')

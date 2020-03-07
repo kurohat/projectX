@@ -49,17 +49,17 @@ def validateDatabase(args):
         if file.is_file():
             return args.database
         else:
-            print('[!!] file not found \nusing default payloads')
-            return getDefaultData(args)
+            print('[!!] file not found: Using default payloads')
+            return getDefaultPath(args)
     else:
-        return getDefaultData(args)
+        return getDefaultPath(args)
 
 
 def validateOutput(args):
     if args.output is not None:
         file = Path(args.output)
         if file.exists():
-            print('[!!] file already exists \nusing default file name')
+            print('[!!] file already exists: Using default file name')
             return Path(removeWhiteSpace(datetime.now())).resolve()
         else:
             return Path(args.output).resolve()
@@ -67,9 +67,9 @@ def validateOutput(args):
         return Path(removeWhiteSpace(datetime.now())).resolve()
 
 
-def getDefaultData(args):
+def getDefaultPath(args):
     if args.fuzz:
-        return 'db/fuzz.txt'
+        return 'db/fuzz/' # fix this
     elif args.xss:
         return 'db/xss.txt'
     else:
