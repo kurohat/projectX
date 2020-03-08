@@ -11,7 +11,7 @@ table
 - argparse
 - pathlib
 - requests
-
+- progress: https://pypi.org/project/progress/
 
 # how to:
 ```console

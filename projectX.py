@@ -1,5 +1,6 @@
 from parse import parse
 # from bs4 import BeautifulSoup
+from progress.bar import Bar
 import db as dbHandler
 import urllib.parse
 import requests
@@ -48,12 +49,33 @@ def readPayload(mode, target, dbPath, cookies):
     results = []
     # read payloads
     with open(dbPath, 'r') as payloads:
+        payloads = payloads.readlines()
+        bar = Bar('Processing', max=len(payloads))        
         for payload in payloads:
             count = count + 1
             result = fire(mode, target, payload, cookies, count)
             results.append(result)
+            bar.next()
+    bar.finish()  
     return results
 
+logo = """
+                        t#,                   ,;      .,                        
+ t         j.          ;##W. itttttttt      f#i      ,Wt                        
+ ED.       EW,        :#L:WE fDDK##DDi    .E#t      i#D. GEEEEEEEL              
+ E#K:      E##j      .KG  ,#D   t#E      i#W,      f#f   ,;;L#K;;.   :KW,      L
+ E##W;     E###D.    EE    ;#f  t#E     L#D.     .D#i       t#E       ,#W:   ,KG
+ E#E##t    E#jG#W;  f#.     t#i t#E   :K#Wfff;  :KW,        t#E        ;#W. jWi 
+ E#ti##f   E#t t##f :#G     GK  t#E   i##WLLLLt t#f         t#E         i#KED.  
+ E#t ;##D. E#t  :K#E:;#L   LW.  t#E    .E#L      ;#G        t#E          L#W.   
+ E#ELLE##K:E#KDDDD###it#f f#: jfL#E      f#E:     :KE.      t#E        .GKj#K.  
+ E#L;;;;;;,E#f,t#Wi,,, f#D#;  :K##E       ,WW;     .DW:     t#E       iWf  i#K. 
+ E#t       E#t  ;#W:    G#t     G#E        .D#;      L#,    t#E      LK:    t#E 
+ E#t       DWi   ,KK:    t       tE          tt       jt     fE      i       tDj
+                                  .                           :                 
+Develop by Amata A. Github: gu2rks
+"""
+print(logo)
 args = parse()
 mode, target, dbPath, output, cookies = args
 # fix cookies's format
