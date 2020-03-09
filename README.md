@@ -1,5 +1,6 @@
 # projectX
 WAF vulnerability scanning tool
+Special thank to all contributors @Awesome-WAF(https://github.com/0xInfection/Awesome-WAF/graphs/contributors) repo
 
 table 
 - https://pandas.pydata.org/pandas-docs/stable/user_guide/style.html
