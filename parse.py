@@ -1,5 +1,5 @@
 """
-Description: parse argument and return to the main class
+Description: parse arguments and return to the main class
 """
 import argparse
 import sys
@@ -8,6 +8,11 @@ from datetime import datetime
 
 
 def parse():
+    """Parse user given arguments
+
+    Returns:
+        parsed args (list): list of parsed arguments
+    """
     parser = argparse.ArgumentParser(
         description="ProjectX WAF vulnerability scanning tool")
     parser.add_argument('-F', '--fuzz', action="store_true",
@@ -29,7 +34,8 @@ def parse():
     args = parser.parse_args()
 
     target = args.url
-    if args.footprinting:
+    # check mode
+    if args.footprinting: 
         return ['WAFWOOF', target]
     else:
         out = validateOutput(args)
@@ -44,6 +50,17 @@ def parse():
 
 
 def validateDatabase(args):
+    """validating given database
+    
+        check if the given database is exists, if not exists then the default database will be use
+        if the given path to database if exits the the given path will be use.
+
+    Args:
+        args (list): arguments given by user
+
+    Returns:
+        database path (str): path to payload database
+    """
     if args.database is not None:  # TO DO: check if file is exist
         file = Path(args.database)
         if file.is_file():
@@ -55,7 +72,18 @@ def validateDatabase(args):
         return getDefaultPath(args)
 
 
-def validateOutput(args):
+def validateOutput(args): #to do: come upwith better defualt name
+    """validating output file name
+    
+        check if the output file exists, if not exists then it will use the given name
+        if the file already exists then defualt file name (executed timestam) will be use.
+    
+    Args:
+        args (list): arguments given by user
+
+    Returns:
+        file name (str): output file name .html
+    """
     if args.output is not None:
         file = Path(args.output)
         if file.exists():
@@ -68,6 +96,16 @@ def validateOutput(args):
 
 
 def getDefaultPath(args):
+    """get defualt path to the database
+    
+        check tool mode then return the defualt path to database base on tool mode
+    
+    Args:
+        args (list): arguments given by user
+
+    Returns:
+        defualt path (str): path to dabase base on tool mode
+    """
     if args.fuzz:
         return 'db/fuzz/' # fix this
     elif args.xss:

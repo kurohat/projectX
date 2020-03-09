@@ -1,5 +1,5 @@
 """
-Description: read payloads or write result
+Description: write result
 """
 import pandas as pd
 import numpy as np
@@ -7,6 +7,15 @@ import webbrowser
 
 
 def writeResult(output, results):
+    """Writing result as a html file
+    
+        Using pandas to create a html table and save it as a html file
+    
+    Args:
+        output (str): path to the output file
+        results (list): a list contains results
+    """
+
     f = open(output, 'w')
     name = []
     status = []
@@ -31,10 +40,9 @@ def writeResult(output, results):
 
 
 def color_fail_red(row):
-    """
-    Takes a scalar and returns a string with
+    """Takes a scalar and returns a string with
     the css property `'background-color: red'` for fail
-    strings, green otherwise.
+    strings, pass = green
     """
     color = 'background-color: {}'.format('red' if row == 'fail' else 'green')
     return color

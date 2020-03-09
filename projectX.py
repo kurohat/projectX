@@ -7,7 +7,24 @@ import requests
 import json
 
 
-def fire(mode, t, payload, cookie, count):
+def fire(mode, target, payload, cookie, count):
+    """Firing payload to target website
+    
+        Create a http header using rquests module then send it to target website.
+        Check the respone and return the result. 
+    
+    Args:
+        mode (str): tool mode = fuzzing / xss / sqli
+        target (str): target website
+        payload (str): payload that needed to be send to website
+        cookies (str): website cookies for bypassing auth
+        count (int): count how many payload is sent
+
+    Returns:
+        result (list): result of executed payload which include infomation such as
+        payload, type, and status
+    """
+
     """
     GET http://169.254.179.84/ HTTP/1.1
     User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:72.0) Gecko/20100101 Firefox/72.0
@@ -30,7 +47,7 @@ def fire(mode, t, payload, cookie, count):
     # f.write(r.text)
     # f.close()
     payload = urllib.parse.quote(payload.replace('\n', ''))
-    r = requests.get(t.replace('XXX', payload), headers=headers)
+    r = requests.get(target.replace('XXX', payload), headers=headers)
     
     # check for status
     if mode == 'xss':
@@ -45,6 +62,20 @@ def fire(mode, t, payload, cookie, count):
     return result
 
 def readPayload(mode, target, dbPath, cookies):
+    """Read payloads from database and firing it to target website
+    
+        Read payload from the given path then firing the payloads to target website
+        the process bar is shows when tool start sending payloads.
+    
+    Args:
+        mode (str): tool mode = fuzzing / xss / sqli
+        target (str): target website
+        dbPath (str): path to database needed to be read
+        cookies (str): website cookies for bypassing auth
+
+    Returns:
+        results (list): results of executed payloads
+    """
     count = 0
     results = []
     # read payloads
@@ -76,21 +107,23 @@ logo = """
 Develop by Amata A. Github: gu2rks
 """
 print(logo)
+# parse the given input
 args = parse()
-mode, target, dbPath, output, cookies = args
+mode, target, dbPath, output, cookies = args 
 # fix cookies's format
 cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
 print('scanning using mode %s' % mode)
-if(mode == 'WAFWOOF'):
+if(mode == 'WAFWOOF'): # footprinting
     print('woof woof woof')
 else:
     print('the target website is %s' % target)
-    if dbPath == 'db/fuzz/':
+    if dbPath == 'db/fuzz/': # defualt fuzzing
         results = readPayload('fuzz xss', target, dbPath+'xss.txt', cookies) # read fuzz/xss.txt
         result2 = readPayload('fuzz sqli', target, dbPath+'sqli.txt', cookies) # read fuzz/sqli.txt then append to the previous results
         results = results + result2
-    else:
+    else:  # xss or sqli
         results = readPayload(mode, target, dbPath, cookies)
     print('the result is save in %s' % output)
+    #writing output as .html
     dbHandler.writeResult(output, results)
     print('DONE')
