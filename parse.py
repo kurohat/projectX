@@ -36,7 +36,7 @@ def parse():
     target = args.url
     # check mode
     if args.footprinting: 
-        return ['WAFWOOF', target]
+        return ['wafw00f', target]
     else:
         out = validateOutput(args)
         cookies = args.cookies

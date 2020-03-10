@@ -1,11 +1,54 @@
 from parse import parse
 # from bs4 import BeautifulSoup
 from progress.bar import Bar
-import db as dbHandler
+# import db as dbHandler
 import urllib.parse
+import subprocess
 import requests
-import json
+import pandas as pd
+import numpy as np
+import webbrowser
 
+def writeResult(output, results):
+    """Writing result as a html file
+    
+        Using pandas to create a html table and save it as a html file
+    
+    Args:
+        output (str): path to the output file
+        results (list): a list contains results
+    """
+
+    f = open(output, 'w')
+    name = []
+    status = []
+    info = []
+    for result in results:
+        name.append(result[0].replace('>', '&gt;').replace('<', '&lt;'))
+        status.append(result[1])
+        info.append(result[2])
+
+    df_marks = pd.DataFrame({'Payload': name,
+                             'Status': status,
+                             'Type': info})
+
+    # add style to dataframe
+    s = df_marks.style.applymap(color_fail_red, subset=['Status'])
+    # render dataframe as html
+    f.write('')
+    f.write(s.render())
+    f.close()
+    # open file
+    webbrowser.open('file://'+str(output))
+
+
+def color_fail_red(row):
+    """Takes a scalar and returns a string with
+    the css property `'background-color: red'` for fail
+    strings, pass = green
+    """
+    color = 'background-color: {}'.format('red' if row == 'fail' else 'green')
+    return color
 
 def fire(mode, target, payload, cookie, count):
     """Firing payload to target website
@@ -41,11 +84,7 @@ def fire(mode, target, payload, cookie, count):
                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
                "Connection": "keep-alive",
                "Cookie": cookie}
-    # r = requests.post(t, data=json.dumps(body), headers=headers)
-    # savefile
-    # f = open('test'+str(count)+'.html','w')
-    # f.write(r.text)
-    # f.close()
+
     payload = urllib.parse.quote(payload.replace('\n', ''))
     r = requests.get(target.replace('XXX', payload), headers=headers)
     
@@ -90,6 +129,9 @@ def readPayload(mode, target, dbPath, cookies):
     bar.finish()  
     return results
 
+def callWafw00f(target): # todo: create method for wafw00f
+    print('bla')
+
 logo = """
                         t#,                   ,;      .,                        
  t         j.          ;##W. itttttttt      f#i      ,Wt                        
@@ -109,13 +151,20 @@ Develop by Amata A. Github: gu2rks
 print(logo)
 # parse the given input
 args = parse()
-mode, target, dbPath, output, cookies = args 
-# fix cookies's format
-cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
-print('scanning using mode %s' % mode)
-if(mode == 'WAFWOOF'): # footprinting
-    print('woof woof woof')
+
+if args[0] == 'wafw00f': # footprinting
+    target = args[1]
+    print('the target website is %s' % target)
+    print('executing wafw00f')
+    output = subprocess.getoutput('python3 wafw00f-master/wafw00f/main.py {} | grep "is behind"'.format(target))
+    if not output:
+        print('No WAF detected by wafw00f')
+    else:
+        print(output)
 else:
+    mode, target, dbPath, output, cookies = args # fixthis
+    # fix cookies's format
+    cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
     print('the target website is %s' % target)
     if dbPath == 'db/fuzz/': # defualt fuzzing
         results = readPayload('fuzz xss', target, dbPath+'xss.txt', cookies) # read fuzz/xss.txt
@@ -125,5 +174,5 @@ else:
         results = readPayload(mode, target, dbPath, cookies)
     print('the result is save in %s' % output)
     #writing output as .html
-    dbHandler.writeResult(output, results)
+    writeResult(output, results)
     print('DONE')
