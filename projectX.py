@@ -88,16 +88,28 @@ def fire(mode, target, payload, cookie, count):
     payload = urllib.parse.quote(payload.replace('\n', ''))
     r = requests.get(target.replace('XXX', payload), headers=headers)
     
-    # check for status
-    if mode == 'xss':
-        status = 'fail' if r.text.find('=alert') == -1 else 'pass'
-    elif mode == 'sqli':
-        # URL encode
-        status = 'fail' if r.text.find('First name: Hack') == -1 else 'pass'
-    else:
-        status = 'fail' if r.text.find(payload) == -1 else 'pass'
+    # f = open('test.html', 'w')
+    # f.write(r.text)
+    # f.close()
 
-    result = (urllib.parse.unquote(payload), status, mode)
+    # check for status
+    # if mode == 'xss':
+    #     status = 'fail' if r.text.find('=alert') == -1 else 'pass'
+    # elif mode == 'sqli':
+    #     # URL encode
+    #     status = 'fail' if r.text.find('First name: Hack') == -1 else 'pass'
+    # else:
+    #     status = 'fail' if r.text.find(payload) == -1 else 'pass'
+    status = 'pass' if r.status_code == 200 else 'fail'
+
+    #Fuzzing mode then keep pass and fail, payload execution keep only pass
+    if mode == 'xss' or mode == 'sqli':
+        if status == 'pass':
+            result = (urllib.parse.unquote(payload), status, mode)
+        else:
+            return None
+    else:
+        result = (urllib.parse.unquote(payload), status, mode)
     return result
 
 def readPayload(mode, target, dbPath, cookies):
@@ -124,7 +136,8 @@ def readPayload(mode, target, dbPath, cookies):
         for payload in payloads:
             count = count + 1
             result = fire(mode, target, payload, cookies, count)
-            results.append(result)
+            if result != None:
+                results.append(result)
             bar.next()
     bar.finish()  
     return results
@@ -152,15 +165,15 @@ print(logo)
 # parse the given input
 args = parse()
 
+# mode, target, dbPath, output, cookies = args # fixthis
+# fire(mode, target, 'onabort', cookies, 1)
+
 if args[0] == 'wafw00f': # footprinting
     target = args[1]
     print('the target website is %s' % target)
     print('executing wafw00f')
-    output = subprocess.getoutput('python3 wafw00f-master/wafw00f/main.py {} | grep "is behind"'.format(target))
-    if not output:
-        print('No WAF detected by wafw00f')
-    else:
-        print(output)
+    output = subprocess.getoutput('python3 wafw00f-master/wafw00f/main.py {}'.format(target))
+    print(output)
 else:
     mode, target, dbPath, output, cookies = args # fixthis
     # fix cookies's format
