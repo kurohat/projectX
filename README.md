@@ -19,6 +19,20 @@ table
 - https://github.com/s0md3v/XSStrike/blob/4032e40c671ad5ad0919a9e9f2ecbd2e9edabe50/core/config.py
 - https://github.com/fate0/proxylist
 
+# header
+```python
+    """
+    GET http://169.254.179.84/ HTTP/1.1
+    User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:72.0) Gecko/20100101 Firefox/72.0
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+    Accept-Language: sv-SE,sv;q=0.8,en-US;q=0.5,en;q=0.3
+    Connection: keep-alive
+    Cookie: PHPSESSID=mk5f489u62hilvgp9ml9peeccg; security=low
+    Upgrade-Insecure-Requests: 1
+    Host: 169.254.179.84
+    """
+```
+
 # how to:
 ```console
 # sqli
