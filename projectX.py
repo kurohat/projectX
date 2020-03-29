@@ -50,6 +50,29 @@ def color_fail_red(row):
     color = 'background-color: {}'.format('red' if row == 'fail' else 'green')
     return color
 
+
+def get_proxies():
+    """Fetching proxy
+
+        Fetching proxy from "http://proxylist.fatezero.org/proxy.list" and put frist 20 ips
+        in a list
+
+    Arg:
+        none
+
+    Returns:
+        proxies (list): list of proxy ip adresses x.x.x.x:xxxx
+    """
+    proxies = []
+    r = requests.get("http://proxylist.fatezero.org/proxy.list", stream=True)
+    while len(proxies) < 21:
+        for line in r.iter_lines():
+            line = json.loads(line.decode("utf-8"))
+            if line["type"] == "https":
+                ip = line["host"] +":"+ str(line["port"])
+                proxies.append(ip)
+    return proxies
+
 def fire(mode, target, payload, cookie, count):
     """Firing payload to target website
     
@@ -112,7 +135,7 @@ def fire(mode, target, payload, cookie, count):
         result = (urllib.parse.unquote(payload), status, mode)
     return result
 
-def readPayload(mode, target, dbPath, cookies):
+def read_payload(mode, target, dbPath, cookies):
     """Read payloads from database and firing it to target website
     
         Read payload from the given path then firing the payloads to target website
@@ -180,11 +203,11 @@ else:
     cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
     print('the target website is %s' % target)
     if dbPath == 'db/fuzz/': # defualt fuzzing
-        results = readPayload('fuzz xss', target, dbPath+'xss.txt', cookies) # read fuzz/xss.txt
-        result2 = readPayload('fuzz sqli', target, dbPath+'sqli.txt', cookies) # read fuzz/sqli.txt then append to the previous results
+        results = read_payload('fuzz xss', target, dbPath+'xss.txt', cookies) # read fuzz/xss.txt
+        result2 = read_payload('fuzz sqli', target, dbPath+'sqli.txt', cookies) # read fuzz/sqli.txt then append to the previous results
         results = results + result2
     else:  # xss or sqli
-        results = readPayload(mode, target, dbPath, cookies)
+        results = read_payload(mode, target, dbPath, cookies)
     print('the result is save in %s' % output)
     #writing output as .html
     writeResult(output, results)

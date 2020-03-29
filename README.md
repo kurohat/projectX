@@ -14,6 +14,11 @@ table
 - requests
 - progress: https://pypi.org/project/progress/
 
+
+# useful
+- https://github.com/s0md3v/XSStrike/blob/4032e40c671ad5ad0919a9e9f2ecbd2e9edabe50/core/config.py
+- https://github.com/fate0/proxylist
+
 # how to:
 ```console
 # sqli
