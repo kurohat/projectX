@@ -8,6 +8,9 @@ import requests
 import pandas as pd
 import numpy as np
 import webbrowser
+from itertools import cycle
+import json
+
 
 def writeResult(output, results):
     """Writing result as a html file
@@ -66,25 +69,26 @@ def get_proxies():
         proxies (list): list of proxy ip adresses x.x.x.x:xxxx
     """
     proxies = []
-    r = requests.get("http://proxylist.fatezero.org/proxy.list", stream=True)
+    r = requests.get("http://proxylist.fatezero.org/proxy.list")
     print("[+] Getting proxie list, this will take a fews sec")
     for line in r.iter_lines():
+        if len(proxies) == 10:
+            break
         line = json.loads(line.decode("utf-8"))
         if line["type"] == "https":
             ip = line["host"] +":"+ str(line["port"])
             try:
                 response = requests.get('https://httpbin.org/ip',proxies={"http": ip, "https": ip})
                 proxies.append(ip)
-                if len(proxies) > 15:
-                    break
+                print("[+] Got %s proxies" %len(proxies))
             except:
                 print("[!] BAD proxy. skip to next one")  
                 #Most free proxies will often get connection errors. You will have retry the entire request using another proxy to work. 
-                #We will just skip retries as its beyond the scope of this tutorial and we are only downloading a single url 
-    print("[+]Got %s proxies" %len(proxies))
+                #We will just skip retries as its beyond the scope of this tutorial and we are only downloading a single url
+    print('[+] Got ALL 10 proxies')
     return proxies
 
-def fire(mode, target, payload, header, count):
+def fire(mode, target, payload, header, count, proxy):
     """Firing payload to target website
     
         send payload to send it to target website.
@@ -96,15 +100,19 @@ def fire(mode, target, payload, header, count):
         payload (str): payload that needed to be send to website
         header (json): html header
         count (int): count how many payload is sent
+        proxy (str): ip address of the proxy site
 
     Returns:
         result (list): result of executed payload which include infomation such as
         payload, type, and status
     """
-
     payload = urllib.parse.quote(payload.replace('\n', ''))
-    r = requests.get(target.replace('XXX', payload), headers=header)
-    
+
+    if proxy == None: # not using proxy
+        r = requests.get(target.replace('XXX', payload), headers=header)
+    else: # using proxy
+        r = requests.get(target.replace('XXX', payload), headers=header, proxies={"http": proxy, "https": proxy})
+        # print(r.json())
     # f = open('test.html', 'w')
     # f.write(r.text)
     # f.close()
@@ -174,13 +182,22 @@ def read_payload(mode, target, dbPath, header):
     """
     count = 0
     results = []
+    # using proxy?
+    usr_input = input('[?] Do you want to use web proxy to advoid IP ban? \n[!]WARNING the tool performance will decrease if proxy is used [y/n]: ')
+    # proxy pool in Round Robin queue
+    proxy_pool = cycle(get_proxies()) if usr_input == 'y' else None
+
     # read payloads
     with open(dbPath, 'r') as payloads:
         payloads = payloads.readlines()
         bar = Bar('Processing', max=len(payloads))        
         for payload in payloads:
             count = count + 1
-            result = fire(mode, target, payload, header, count)
+            if proxy_pool == None: # no proxy pool
+                result = fire(mode, target, payload, header, count, None)
+            else:
+                proxy = next(proxy_pool) # pop IP from RR queue
+                result = fire(mode, target, payload, header, count, proxy)
             if result != None:
                 results.append(result)
             bar.next()
@@ -212,8 +229,8 @@ args = parse()
 
 if args[0] == 'wafw00f': # footprinting
     target = args[1]
-    print('[+]The target website is %s' % target)
-    print('[+]Executing wafw00f')
+    print('[+] The target website is %s' % target)
+    print('[+] Executing wafw00f')
     output = subprocess.getoutput('python3 wafw00f-master/wafw00f/main.py {}'.format(target))
     print(output)
 else:
@@ -222,13 +239,13 @@ else:
     cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
     # prepare html header
     header = create_header(cookies)
-    print('[+]The target website is %s' % target)
+    print('[+] The target website is %s' % target)
     if dbPath == 'db/fuzz/': # defualt fuzzing
         results = read_payload('fuzz xss', target, dbPath+'xss.txt', header) # read fuzz/xss.txt
         result2 = read_payload('fuzz sqli', target, dbPath+'sqli.txt', header) # read fuzz/sqli.txt then append to the previous results
         results = results + result2
     else:  # xss or sqli
         results = read_payload(mode, target, dbPath, header)
-    print('[+]The result is save in %s' % output)
+    print('[+] The result is save in %s' % output)
     #writing output as .html
     writeResult(output, results)
