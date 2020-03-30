@@ -67,21 +67,21 @@ def get_proxies():
     """
     proxies = []
     r = requests.get("http://proxylist.fatezero.org/proxy.list", stream=True)
-   
+    print("[+] Getting proxie list, this will take a fews sec")
     for line in r.iter_lines():
         line = json.loads(line.decode("utf-8"))
         if line["type"] == "https":
             ip = line["host"] +":"+ str(line["port"])
-            print(ip)
             try:
                 response = requests.get('https://httpbin.org/ip',proxies={"http": ip, "https": ip})
                 proxies.append(ip)
-                if len(proxies) > 16:
+                if len(proxies) > 15:
                     break
             except:
+                print("[!] BAD proxy. skip to next one")  
                 #Most free proxies will often get connection errors. You will have retry the entire request using another proxy to work. 
                 #We will just skip retries as its beyond the scope of this tutorial and we are only downloading a single url 
-                print("Skipping. Connnection error")    
+    print("[+]Got %s proxies" %len(proxies))
     return proxies
 
 def fire(mode, target, payload, header, count):
@@ -109,14 +109,6 @@ def fire(mode, target, payload, header, count):
     # f.write(r.text)
     # f.close()
 
-    # check for status
-    # if mode == 'xss':
-    #     status = 'fail' if r.text.find('=alert') == -1 else 'pass'
-    # elif mode == 'sqli':
-    #     # URL encode
-    #     status = 'fail' if r.text.find('First name: Hack') == -1 else 'pass'
-    # else:
-    #     status = 'fail' if r.text.find(payload) == -1 else 'pass'
     status = 'pass' if r.status_code == 200 else 'fail'
 
     #Fuzzing mode then keep pass and fail, payload execution keep only pass
@@ -143,25 +135,25 @@ def create_header(cookies):
         header (json): html header
     """
 
-    usr_input = input("Do you want to add Bypass WAF headers? \nHeaders inlude X-Originating-IP:, X-Forwarded-For:, X-Remote-IP, X-Remote-Addr: \nThe headers requests to bypass some WAF products. [y/n]")
+    usr_input = input("[?] Do you want to add Bypass WAF headers? \nHeaders inlude X-Originating-IP:, X-Forwarded-For:, X-Remote-IP, X-Remote-Addr: \nThe headers requests to bypass some WAF products. [y/n]")
     if usr_input.lower() == 'y':
         header = {'content-type': 'application/json',
-               "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:72.0) Gecko/20100101 Firefox/72.0",
-               "Accept-Encoding": "gzip,deflate,sdch",
-               "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-               "Connection": "keep-alive",
-               "X-Originating-IP": "127.0.0.1",
-               "X-Forwarded-For:": "127.0.0.1",
-               "X-Remote-IP": "127.0.0.1", 
-               "X-Remote-Addr": "127.0.0.1",
-               "Cookie": cookies}
+               'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:72.0) Gecko/20100101 Firefox/72.0',
+               'Accept-Encoding': 'gzip,deflate,sdch',
+               'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+               'Connection': 'keep-alive',
+               'X-Originating-IP': '127.0.0.1',
+               'X-Forwarded-For': '127.0.0.1',
+               'X-Remote-IP': '127.0.0.1', 
+               'X-Remote-Addr': '127.0.0.1',
+               'Cookie': cookies}
     else:
         header = {'content-type': 'application/json',
-                "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:72.0) Gecko/20100101 Firefox/72.0",
-                "Accept-Encoding": "gzip,deflate,sdch",
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                "Connection": "keep-alive",
-                "Cookie": cookies}
+               'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:72.0) Gecko/20100101 Firefox/72.0',
+               'Accept-Encoding': 'gzip,deflate,sdch',
+               'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+               'Connection': 'keep-alive',
+               'Cookie': cookies}
     return header
 
 
@@ -220,8 +212,8 @@ args = parse()
 
 if args[0] == 'wafw00f': # footprinting
     target = args[1]
-    print('the target website is %s' % target)
-    print('executing wafw00f')
+    print('[+]The target website is %s' % target)
+    print('[+]Executing wafw00f')
     output = subprocess.getoutput('python3 wafw00f-master/wafw00f/main.py {}'.format(target))
     print(output)
 else:
@@ -230,14 +222,13 @@ else:
     cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
     # prepare html header
     header = create_header(cookies)
-    print('the target website is %s' % target)
+    print('[+]The target website is %s' % target)
     if dbPath == 'db/fuzz/': # defualt fuzzing
         results = read_payload('fuzz xss', target, dbPath+'xss.txt', header) # read fuzz/xss.txt
         result2 = read_payload('fuzz sqli', target, dbPath+'sqli.txt', header) # read fuzz/sqli.txt then append to the previous results
         results = results + result2
     else:  # xss or sqli
         results = read_payload(mode, target, dbPath, header)
-    print('the result is save in %s' % output)
+    print('[+]The result is save in %s' % output)
     #writing output as .html
     writeResult(output, results)
-    print('DONE')

@@ -31,6 +31,16 @@ table
     Upgrade-Insecure-Requests: 1
     Host: 169.254.179.84
     """
+
+    # check for status 
+    for testing without waf
+    if mode == 'xss':
+        status = 'fail' if r.text.find('=alert') == -1 else 'pass'
+    elif mode == 'sqli':
+        # URL encode
+        status = 'fail' if r.text.find('First name: Hack') == -1 else 'pass'
+    else:
+        status = 'fail' if r.text.find(payload) == -1 else 'pass'
 ```
 
 # how to:
