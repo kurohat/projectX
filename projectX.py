@@ -54,8 +54,10 @@ def color_fail_red(row):
 def get_proxies():
     """Fetching proxy
 
-        Fetching proxy from "http://proxylist.fatezero.org/proxy.list" and put frist 20 ips
-        in a list
+        Fetching proxy from "http://proxylist.fatezero.org/proxy.list" 
+        then test realiability for each ip buy sending to httpbin.org
+        if the website return the sent ip then we add it in proxies list
+        The proxies list is resturn when it reach the length of 15
 
     Arg:
         none
@@ -65,12 +67,21 @@ def get_proxies():
     """
     proxies = []
     r = requests.get("http://proxylist.fatezero.org/proxy.list", stream=True)
-    while len(proxies) < 21:
-        for line in r.iter_lines():
-            line = json.loads(line.decode("utf-8"))
-            if line["type"] == "https":
-                ip = line["host"] +":"+ str(line["port"])
+   
+    for line in r.iter_lines():
+        line = json.loads(line.decode("utf-8"))
+        if line["type"] == "https":
+            ip = line["host"] +":"+ str(line["port"])
+            print(ip)
+            try:
+                response = requests.get('https://httpbin.org/ip',proxies={"http": ip, "https": ip})
                 proxies.append(ip)
+                if len(proxies) > 16:
+                    break
+            except:
+                #Most free proxies will often get connection errors. You will have retry the entire request using another proxy to work. 
+                #We will just skip retries as its beyond the scope of this tutorial and we are only downloading a single url 
+                print("Skipping. Connnection error")    
     return proxies
 
 def fire(mode, target, payload, header, count):
@@ -206,9 +217,6 @@ Develop by Amata A. Github: gu2rks
 print(logo)
 # parse the given input
 args = parse()
-
-# mode, target, dbPath, output, cookies = args # fixthis
-# fire(mode, target, 'onabort', cookies, 1)
 
 if args[0] == 'wafw00f': # footprinting
     target = args[1]
