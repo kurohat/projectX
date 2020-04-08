@@ -109,9 +109,9 @@ def fire(mode, target, payload, header, count, proxy):
     payload = urllib.parse.quote(payload.replace('\n', ''))
 
     if proxy == None: # not using proxy
-        r = requests.get(target.replace('XXX', payload), headers=header)
+        r = requests.get(target.replace('projectX', payload), headers=header)
     else: # using proxy
-        r = requests.get(target.replace('XXX', payload), headers=header, proxies={"http": proxy, "https": proxy})
+        r = requests.get(target.replace('projectX', payload), headers=header, proxies={"http": proxy, "https": proxy})
         # print(r.json())
     # f = open('test.html', 'w')
     # f.write(r.text)

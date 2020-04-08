@@ -18,13 +18,13 @@ def parse():
     parser.add_argument('-F', '--fuzz', action="store_true",
                         help="scanning WAF using fuzzing")
     parser.add_argument('-xss', '--xss', action="store_true",
-                        help="scanning WAF by executing xss payloads")
+                        help="scanning WAF by executing XSS payloads")
     parser.add_argument('-sqli', '--sqli', action="store_true",
-                        help="scanning WAF by executing xss payloads")
+                        help="scanning WAF by executing SQLi payloads")
     parser.add_argument('-f', '--footprinting', action="store_true",
                         help="footprinting WAF using WAFWOOF")
-    parser.add_argument('-u', '--url', type=str, required=True,
-                        help="Target's WAF using WAFWOOF")
+    parser.add_argument('-t', '--target', type=str, required=True,
+                        help='target\'s url and "projectX" where the payloads be add.\nFor instance: http://<YOUR_HOST>/?param=projectX')
     parser.add_argument('-d', '--database', type=str,
                         help="Absolute path to file contain payloads. the tool will use the default database if -d is not given")
     parser.add_argument('-o', '--output', type=str,
