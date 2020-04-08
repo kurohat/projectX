@@ -48,14 +48,16 @@ table
 # setup nginx
 - https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-naxsi-on-ubuntu-16-04
 - https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-16-04
+- https://dlford.io/nginx-naxsi-http2-tls13-pagespeed/
+- https://www.digitalocean.com/community/tutorials/how-to-install-linux-nginx-mysql-php-lemp-stack-ubuntu-18-04
 
 # how to:
 ```console
 # sqli
-$ python3 projectX.py -sqli -t "http://169.254.179.84/vulnerabilities/sqli/?id=XXX&Submit=Submit#" -o sqli.html -c PHPSESSID="mk5f489u62hilvgp9ml9peeccg",security="low"
+$ python3 projectX.py -sqli -t "http://169.254.179.84/vulnerabilities/sqli/?id=projectX&Submit=Submit#" -o sqli.html -c PHPSESSID="mk5f489u62hilvgp9ml9peeccg",security="low"
 # xss
-$ python3 projectX.py -xss -t "http://169.254.179.84/vulnerabilities/xss_r/?name=XXX" -o output2.html -c PHPSESSID="mk5f489u62hilvgp9ml9peeccg",security="low"
+$ python3 projectX.py -xss -t "http://169.254.179.84/vulnerabilities/xss_r/?name=projectX" -o output2.html -c PHPSESSID="mk5f489u62hilvgp9ml9peeccg",security="low"
 # fuzz
-$ python3 projectX.py -F -t "http://169.254.179.84/vulnerabilities/xss_r/?name=XXX" -o fuzz.html -c PHPSESSID="mk5f489u62hilvgp9ml9peeccg",security="low"
+$ python3 projectX.py -F -t "http://169.254.179.84/vulnerabilities/xss_r/?name=projectX" -o fuzz.html -c PHPSESSID="mk5f489u62hilvgp9ml9peeccg",security="low"
 
 ```

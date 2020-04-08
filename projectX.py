@@ -236,7 +236,8 @@ if args[0] == 'wafw00f': # footprinting
 else:
     mode, target, dbPath, output, cookies = args # fixthis
     # fix cookies's format
-    cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
+    if cookies is not None:
+        cookies = cookies.replace(',', '; ').replace(':', '=') + ";"
     # prepare html header
     header = create_header(cookies)
     print('[+] The target website is %s' % target)

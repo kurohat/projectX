@@ -24,22 +24,23 @@ def parse():
     parser.add_argument('-f', '--footprinting', action="store_true",
                         help="footprinting WAF using WAFWOOF")
     parser.add_argument('-t', '--target', type=str, required=True,
-                        help='target\'s url and "projectX" where the payloads be add.\nFor instance: http://<YOUR_HOST>/?param=projectX')
+                        help='target\'s url and "projectX" where the payloads be add.\nFor instance: -t "http://<YOUR_HOST>/?param=projectX'")
     parser.add_argument('-d', '--database', type=str,
                         help="Absolute path to file contain payloads. the tool will use the default database if -d is not given")
     parser.add_argument('-o', '--output', type=str,
                         help="Name of the output file ex -o output.html")
     parser.add_argument('-c', '--cookies', type=str,
-                        help="cookies for the secssion. use, to separeate cookies")
+                        help='cookies for the secssion. Use "," (comma) to separeate cookies\nFor instance: -c "cookie1=asdferw, cookie2=wafsfpoe"')
     args = parser.parse_args()
 
-    target = args.url
+    target = args.target
     # check mode
     if args.footprinting: 
         return ['wafw00f', target]
     else:
         out = validateOutput(args)
         cookies = args.cookies
+        print(cookies)
         path = validateDatabase(args)
         if args.fuzz:  # fuzzing
             return ['fuzz', target, path, out, cookies]
