@@ -6,7 +6,7 @@ import urllib.parse
 import subprocess
 import requests
 import pandas as pd
-import numpy as np
+# import numpy as np
 import webbrowser
 from itertools import cycle
 import json
@@ -38,7 +38,6 @@ def writeResult(output, results):
     # add style to dataframe
     s = df_marks.style.applymap(color_fail_red, subset=['Status'])
     # render dataframe as html
-    f.write('')
     f.write(s.render())
     f.close()
     # open file
@@ -143,7 +142,7 @@ def create_header(cookies):
         header (json): html header
     """
 
-    usr_input = input("[?] Do you want to add Bypass WAF headers? \nHeaders inlude X-Originating-IP:, X-Forwarded-For:, X-Remote-IP, X-Remote-Addr: \nThe headers requests to bypass some WAF products. [y/n]")
+    usr_input = input("[?] Do you want to add a extension header ?\nThe headers inlude X-Originating-IP:, X-Forwarded-For:, X-Remote-IP, X-Remote-Addr: \nThe mentioned header can be use for bypassing some WAF products. [y/n]")
     if usr_input.lower() == 'y':
         header = {'content-type': 'application/json',
                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:72.0) Gecko/20100101 Firefox/72.0',
@@ -183,7 +182,7 @@ def read_payload(mode, target, dbPath, header):
     count = 0
     results = []
     # using proxy?
-    usr_input = input('[?] Do you want to use web proxy to advoid IP ban? \n[!]WARNING the tool performance will decrease if proxy is used [y/n]: ')
+    usr_input = input('[?] Do you want to use web proxy to advoid IP ban? \n[!] WARNING the tool performance will decrease if proxy is used [y/n]: ')
     # proxy pool in Round Robin queue
     proxy_pool = cycle(get_proxies()) if usr_input == 'y' else None
 
@@ -204,8 +203,6 @@ def read_payload(mode, target, dbPath, header):
     bar.finish()  
     return results
 
-def callWafw00f(target): # todo: create method for wafw00f
-    print('bla')
 
 logo = """
                         t#,                   ,;      .,                        

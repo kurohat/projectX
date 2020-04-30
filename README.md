@@ -55,6 +55,7 @@ table
 ```console
 # sqli
 $ python3 projectX.py -sqli -t "http://169.254.179.84/vulnerabilities/sqli/?id=projectX&Submit=Submit#" -o sqli.html -c PHPSESSID="mk5f489u62hilvgp9ml9peeccg",security="low"
+$ python3 projectX.py -sqli -t "http://192.168.0.104/?q=projectX" -o sqli.html
 # xss
 $ python3 projectX.py -xss -t "http://169.254.179.84/vulnerabilities/xss_r/?name=projectX" -o output2.html -c PHPSESSID="mk5f489u62hilvgp9ml9peeccg",security="low"
 # fuzz

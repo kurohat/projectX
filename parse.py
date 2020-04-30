@@ -2,7 +2,7 @@
 Description: parse arguments and return to the main class
 """
 import argparse
-import sys
+# import sys
 from pathlib import Path
 from datetime import datetime
 
@@ -24,7 +24,7 @@ def parse():
     parser.add_argument('-f', '--footprinting', action="store_true",
                         help="footprinting WAF using WAFWOOF")
     parser.add_argument('-t', '--target', type=str, required=True,
-                        help='target\'s url and "projectX" where the payloads be add.\nFor instance: -t "http://<YOUR_HOST>/?param=projectX'")
+                        help='target\'s url and "projectX" where the payloads be add.\nFor instance: -t "http://<YOUR_HOST>/?param=projectX"')
     parser.add_argument('-d', '--database', type=str,
                         help="Absolute path to file contain payloads. the tool will use the default database if -d is not given")
     parser.add_argument('-o', '--output', type=str,
@@ -40,7 +40,6 @@ def parse():
     else:
         out = validateOutput(args)
         cookies = args.cookies
-        print(cookies)
         path = validateDatabase(args)
         if args.fuzz:  # fuzzing
             return ['fuzz', target, path, out, cookies]

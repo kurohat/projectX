@@ -1,0 +1,371 @@
+%----------------------------------------------------------------------------------------
+%
+% LaTeX-template for degree projects at LNU, Department of Computer Science
+% Last updated by Johan Hagelbäck, Mar 2017
+% Linnaeus University
+%
+% License: Creative Commons BY
+%
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Settings and configuration
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{dtklogos}
+\usepackage{wallpaper}
+\usepackage[absolute]{textpos}
+\usepackage[top=2cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
+\usepackage{appendix}
+\usepackage[nottoc]{tocbibind}
+\usepackage[colorlinks=true,
+            linkcolor=black,
+            urlcolor=blue,
+            citecolor=black]{hyperref}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\usepackage{sectsty}
+\sectionfont{\fontsize{14}{15}\selectfont}
+\subsectionfont{\fontsize{12}{15}\selectfont}
+\subsubsectionfont{\fontsize{12}{15}\selectfont}
+
+\usepackage{csquotes} % Used to handle citations
+
+\renewcommand{\thetable}{\arabic{section}.\arabic{table}}  
+\renewcommand{\thefigure}{\arabic{section}.\arabic{figure}} 
+
+%----------------------------------------------------------------------------------------
+%	
+%----------------------------------------------------------------------------------------
+\newsavebox{\mybox}
+\newlength{\mydepth}
+\newlength{\myheight}
+
+\newenvironment{sidebar}%
+{\begin{lrbox}{\mybox}\begin{minipage}{\textwidth}}%
+{\end{minipage}\end{lrbox}%
+ \settodepth{\mydepth}{\usebox{\mybox}}%
+ \settoheight{\myheight}{\usebox{\mybox}}%
+ \addtolength{\myheight}{\mydepth}%
+ \noindent\makebox[0pt]{\hspace{-20pt}\rule[-\mydepth]{1pt}{\myheight}}%
+ \usebox{\mybox}}
+
+%----------------------------------------------------------------------------------------
+%	Title section
+%----------------------------------------------------------------------------------------
+\newcommand\BackgroundPic{
+    \put(-2,-3){
+    \includegraphics[keepaspectratio,scale=0.3]{img/lnu_etch.png} % Background picture
+    }
+}
+\newcommand\BackgroundPicLogo{
+    \put(30,740){
+    \includegraphics[keepaspectratio,scale=0.10]{img/logo.png} % Logo in upper left corner
+    }
+}
+
+\title{	
+\vspace{-8cm}
+\begin{sidebar}
+    \vspace{10cm}
+    \normalfont \normalsize
+    \Huge Bachelor Degree Project \\
+    \vspace{-1.3cm}
+\end{sidebar}
+\vspace{3cm}
+\begin{flushleft}
+    \huge Project X\\ 
+    \it \LARGE - All-in-one WAF vulnerability scanning tool
+\end{flushleft}
+\null
+\vfill
+\begin{textblock}{6}(10,13)
+\begin{flushright}
+\begin{minipage}{\textwidth}
+\begin{flushleft} \large
+\emph{Author:} Amata Anantaprayoon\\ % Author
+\emph{Supervisor:} Ola Flygt\\ % Supervisor
+%\emph{Examiner:} Dr.~Mark \textsc{Brown}\\ % Examiner (course manager)
+\emph{Semester:} VT 2020\\ % 
+\emph{Subject:} Computer Science\\ % Subject area
+\end{flushleft}
+\end{minipage}
+\end{flushright}
+\end{textblock}
+}
+
+\date{} 
+
+\begin{document}
+\pagenumbering{gobble}
+\newgeometry{left=5cm}
+\AddToShipoutPicture*{\BackgroundPic}
+\AddToShipoutPicture*{\BackgroundPicLogo}
+\maketitle
+\restoregeometry
+\clearpage
+%----------------------------------------------------------------------------------------
+%	Abstract
+%----------------------------------------------------------------------------------------
+\selectlanguage{english}
+\begin{abstract}
+\color{red}
+\noindent The report shall begin with a summary, called abstract. The abstract shall not be longer than a paragraph, and is not divided into more than one piece. It shall contain:
+
+\begin {itemize}
+\item A short background description to the area of your project
+\item A description of the problem you investigate
+\item A motivation why this problem is interesting to investigate
+\item What you have done to answer the problem
+\item A short summary of your results
+\end {itemize}
+
+From reading the abstract the reader should clearly understand what the report is all about. The purpose of the abstract is to make the reader interested in continue reading the report, if it covers something that the reader wants to know more about.
+\newline
+\newline
+\textbf{Keywords: fill in some keywords for your work here. Examples: software architectures, adaptive systems, network intrusion detection, ...}
+\end{abstract}
+
+
+%----------------------------------------------------------------------------------------
+\newpage
+\pagenumbering{gobble}
+\tableofcontents % Table of contents
+\newpage
+\pagenumbering{arabic}
+
+%----------------------------------------------------------------------------------------
+%
+%	Here follows the actual text contents of the report.
+%
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+Web Application Firewall (WAF) is used to increase Web application security without modifying or fixing a vulnerability in application code. But how can WAF protect web applications if WAF itself is vulnerable? A vulnerability scanning tool can be used to find a vulnerability on missed-configured WAF. The propose of this thesis is developing an open-source WAF scanning tool that will be available to anyone. 
+
+\subsection{Background}
+Web application (web app) has grown exponentially and become one of the most common attack surfaces and adversaries are trying to exploit the web application using different techniques. Recent research shows that 75 percent of cyber attacks are done at the web application level \cite{acunetix}. According to the statistics from 2019 on Web Applications vulnerabilities and threats {\color{red}ref here}, 82 percent of vulnerabilities were located in the application code. Fixing bug or vulnerability in application code might create other problems and might not even fix them. One of the solutions is setting up a web application firewall, considering that WAF can protect web applications without modifying or fixing the vulnerability in application code.
+
+%(https://www.ptsecurity.com/ww-en/analytics/web-vulnerabilities-2020/). 
+%{\color{blue} 53 \% of the vulnerable web app can be exploited using Cross-site scripting. Furthermore, 29\% of the vulnerable web app can be exploited using code injection technique, such as SQL, NoSQL, OS, and LDAP injection.}
+WAF performs a deep packet inspection of the network traffic sent by the client to the server. By analyzing the transferred data, WAF can detect possible attacks even if there is no validation implemented on the web-server \cite{WAF}. Another reason to use WAF is meeting and completing with security standards such as Payment Card Industry Data Security Standard (PCI DSS). Every e-commerce needs to apply PCI DSS in order to achieve some level of trustworthiness \cite{WAF}. It is difficult to configure WAF considering system administrators need to have in-depth knowledge about web application in order to know what should be allowed\cite{config}. Also, human error needs to be considered as a security threat since humans tend to forget or overlook things.
+
+\subsection{Related work}
+{\color{red}Here you briefly describe what others have done in the field of study or how others have attempted to explain or solve the same or similar problem as you are investigating. It is okay to refer to tech articles and online blogs and portals, but you must also refer to published articles. To find articles, use the search tools listed \href{https://coursepress.lnu.se/subject/thesis-projects/tools/}{here}.}
+
+\subsection{Problem formulation}
+The existing solutions to find a vulnerability on missed-configured WAF is to use a scanning tool. There are few tools out there but it appears that the tools focus on only one task. For instance, the tools focus only on one of the following: 
+\begin{enumerate}
+    \item Payload execution 
+        \begin{enumerate}
+            \item Cross-site scripting (XSS)
+            \item SQL injection (SQLi)
+        \end{enumerate}
+    \item Fuzzing
+    \item Footprinting.
+\end{enumerate}
+To the best of my knowledge, there is no existing open-source scanning tool that offers all mentioned features in one tool. 
+
+The goal of this degree project is to develop an ”all-in-one” open-source WAF scanning tool (script) which will be able to detect and disclose the WAF vendor (footprinting). Fuzzing will be another function that the tool will support. Also, execute a payload to find a common vulnerability (XSS, SQLi). Lastly, a comparison between the existing \textbf{open-source tools} and ProjectX will be drawn by testing them in the same environment. The following research questions in Table \ref{rq} were used in order to understand WAF and web application which is required to be able to develop the tool and archive the goal
+\begin{table}[ht]
+    \centering
+    \begin{tabular} {|p{1.2cm}|p{11.6cm}|} \hline
+    \textbf{RQ1} & How WAF and Web app works\\ \hline
+    \textbf{RQ2} & Why is it difficult to configure WAF?\\ \hline
+    \textbf{RQ3} & What are the open-source tools that can be use to scan WAF vulnerability?\\ \hline
+    \end{tabular}\\
+    \caption{Research questions}
+    \label{rq}
+\end{table} 
+\subsection{Motivation}
+WAF scanning tool can be used to enchant security and find a vulnerability on miss-configured WAF. As mentioned, the existing open-source tools appear that it only focuses on one task. ProjectX will solve this problem as it will offer all the mentioned functions. Web administrators can use ProjectX to find vulnerabilities and secure their web applications. Since the tool offers all the mentioned function, web administrators need to install only one tool and would not be required to learn how each tool works. Furthermore, ProjectX will be available as an open-source on Github which could be used by anyone to detect and reduce vulnerabilities on web applications. In addition, it will be available for anyone who would want to improve or add more functionality to the tool.
+
+\subsection{Objectives}
+The objectives are presented in Table \ref{ob} bellow: 
+\begin{table}[ht]
+    \centering
+    \begin{tabular} {|p{1.2cm}|p{11.6cm}|} \hline
+    %\textbf{O0} & literature study  \\ \hline
+    \textbf{O1} & Setting up test environment (DVWA, ModSecurity, Kali Linux)  \\ \hline
+    \textbf{O2} & Implement footprinting \\ \hline
+    \textbf{O3} & Implement fuzz \\ \hline
+    \textbf{O4} & Implement payload execution\\ \hline
+    \textbf{O5} & Testing the tool on the test environment \\ \hline
+    \textbf{O6} & Find a comparison methods \\ \hline
+    \textbf{O7} & Compare the tool with other existing tools \\ \hline
+    \end{tabular}
+    \caption{Objectives}
+    \label{ob}
+\end{table} 
+
+\\
+The goal of this thesis is to develop an ”all-in-one” open-source WAF scanning tool (script). The tool is written using Python programming language which is one of the most popular languages used for developing scripting tools. Furthermore, the tool will use many modules which are mentioned in section XXX. 
+
+The tool will be tested on a testing environment to ensure that the that it fulfills its intended purpose. The testing environment specification is mentioned in the next section.
+% The user will be able to use the tool to find vulnerability on their WAF. 
+
+The expected result is that ProjectX will offer all the mentioned functions. Furthermore, when compared with existing tools, ProjectX would be seen as a better choice. Considering that the users would not need to install many tools and would not be required to learn how each tool works.
+
+\subsection{Scope/Limitation}
+Raspberry pi 4 model B 4GB will be used as a server that runs both WAF and web app. To limit the scope, the tool will only be tested on open-source WAF called ModSecurity which will be configured using a predefined rule set to protect an existing web app called Damn Vulnerable Web App (DVWA). WAFWOOF, WAFninja, XSStrike are the existing open-source tools that will be used to compare with ProjectX. Furthermore, ProjectX and existing tools will be executed on Kali Linux 2020.1a. The figure below demonstrates the testing environment.
+
+\begin{figure}[ht!]
+\begin{center}
+\includegraphics*[width=0.6\columnwidth]{img/ProjectX_testing.png}
+\end{center}
+\caption{Testing environment.}
+\label{testenviro}
+\end{figure}
+
+
+\subsection{Target group}
+%The developed tool can be used to enhance WAF security. 
+The aim of this research is to develop a WAF vulnerability scanning tool that can be used to enhance WAF security. Since the tool is a scripting tool, to be able to use the tool, the user is required to have some knowledge of how the tool works. For instance, the user needs to know which parameter shall be pass so the tool will be executed in a different mode (-F for fuzzing, -xss for xss payload execution and etc.). In addition, knowledge on web application security such as XSS, SQLi, Cookies, etc is required to use the tool efficiently. The target users are system administrator, penetration tester or anyone that works in the IT security field who want to find vulnerability on WAF in order to improve WAF security.
+
+\subsection{Outline}
+{\color{red}
+Here you outline the rest of the report. It shall contain which chapters that will follow, and what each of them is about.}\label{Method}
+
+
+\newpage
+
+\section{Method}
+\label{Method}
+This section contains a scientific method used to develop the tool. It contains the tool requirements and how the tool will be verified to know that it is reliable. Furthermore, there are ethical considerations that had to be taken into consideration which will be discussed at the end of this chapter.
+
+\subsection{Scientific Approach}
+To answer research questions, a literature study has been carried out. Verification and validation method will be used to validate if the developed tool meets the requirements, specifications and that it fulfills its intended purpose.
+
+This thesis is created by me, meaning there is no guideline or requirements created by an external source (company/sponsor). To create requirements for the tool, the defined
+problems from problem formulation and objectives will be converted into requirements.  The requirements are presented in Table \ref{rq}. Lastly, a comparison between ProjectX and existing open-source tools will be drawn by testing them in the same environment as in Figure \ref{testenviro}.
+
+\begin{table}[ht]
+    \centering
+   \begin{tabular} {|p{1.2cm}|p{10.6cm}|} \hline
+    \textbf{R1} & The tool should be able to detect and disclose different WAF vendor (footprinting) \\ \hline
+    \textbf{R2} & The tool should be able to execute payloads from a given file which contains different payloads \\ \hline
+    \textbf{R3} & The result of executing payload should be shown in a file \\ \hline
+    \textbf{R4} & The tool should be able to do fuzzing using data from database \\ \hline
+    \textbf{R5} & The result of fuzzing should be shown in a file\\ \hline
+    \end{tabular}
+    \caption{Tool requirements}
+    \label{rq}
+\end{table}{}
+
+%When the scanning is completed, the result will be save in a html file. 
+
+\subsection{Reliability and Validity}
+As mentioned, the tool will only be testing on the environment as in Figure \ref{testenviro}. The result will be absolutely different when ProjectX is used to scan another WAF with different rule-set. Still, the user will get the same result if the user uses the tool to scan 2 different WAF with the same rule-set since the same rule-set means both WAF have the same vulnerability. 
+
+To ensure the reproducibility of the experiments, all information about the tool will be available to the reader. Farther more, the source code of the tool will be available on Github \href{https://github.com/}{Project X}
+
+\subsection{Ethical considerations}
+Since the tool can be used to find a vulnerability on miss-configured WAF. The primary ethical considerations that need to be considered is, if the tool fall in the wrong hands, it could be misused for malicious propose. It is important that the user dose not use the tool on a site that the user does not have permission to do. 
+
+I firmly believe that ProjectX can be used to enchant WAF security when it used properly. Since it can be used for anyone, meaning anyone can use it to enchants their WAF security. On the other hand, anyone can use it to find a vulnerability and use the result for malicious purposes. The misuse of the tool can result in criminal charges. I will not be held responsible in the event of any criminal charges held against any individuals misusing the tool and/or the information in this thesis 
+
+\newpage
+\section{Technical framework}
+General knowledge of the technical term and technologies mentioned in this report are presented in this section. Farthermore, in-depth informations on some area are mentioned so the reader understand different technique ProjectX offers. Many of menentioned technologies could be studied in a thesis of its own, the focus here has been kept on the relevant parts.
+\subsection{Web Application}
+\subsubsection{}
+
+\newpage
+
+\section{Implementation}
+It is common that you will develop something in your project. It can be a mobile app, a stand-alone application, a website, a game, etc. In this chapter you describe the software you have implemented. 
+
+In some projects you don't develop anything, for example if you do a systematic literature review. In this case you remove this chapter.
+
+\newpage
+
+\section{Results}
+In this chapter you show and describe your results. You shall only show the raw results without any analysis, and you shall not put any conclusions or opinions in the description of the results. Try to be as objective as possible. An example of results from an experiment comparing five sorting algorithms is shown in Table \ref{results} below.\\
+
+\begin{center}
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{ccccccc}
+\hline
+Run & Bubble & Quick & Selection & Insertion & Merge \\
+\hline
+1 & 17384 & 24 & 3258 & 3 & 30 \\
+2 & 17559 & 21 & 3386 & 3 & 27 \\
+3 & 17795 & 19 & 3344 & 4 & 28 \\
+4 & 17484 & 20 & 3417 & 3 & 28 \\
+5 & 17642 & 19 & 3358 & 3 & 30 \\
+\hline
+Average & 17572.8 & 20.6 & 3352.6 & 3.2 & 28.6 \\
+\hline
+%
+\end{tabular}
+\end{center}
+\caption{Execution times for the five sorting algorithms on 100 000 random numbers between 0 and 10 000.}
+\label{results}
+\end{table}
+\end{center}
+
+What you show heavily depends on the type of method you use and what type of data you collect. Numerical data can for example be shown in both tables and graphs. A complementary graph for the sorting algorithms example is shown in Figure \ref{graph}. For a questionnaire you can show the frequency (how many participants that selected the same answer) of each possible answer to a question.
+
+
+
+Note that Tables and Figures shall be labeled with chapter.number, for example Table 4.1 and Figure 1.6.
+
+\newpage
+	
+\section{Analysis}
+Here you give meaning to and your own opinions of the results. What conclusions can you draw from the results? It is important that you don't draw any conclusions that cannot be backed up by your data. Consider using statistical tests to back up your claims. You can read about statistical testing \href{https://coursepress.lnu.se/subject/thesis-projects/statistical-testing/}{here}. 
+	
+\newpage
+	
+\section{Discussion}
+Here you discuss your findings and if your problem has been answered. Think of the project as a feedback loop. You define a problem, find a method of approaching it, conduct the study or experiment, and gather data. The data is then used to answer your problem, thus creating the loop.
+
+You shall also discuss how your findings relate to what others have done in the field of study. Are your results similar to the findings in the related work you described in the Related work section?
+
+This chapter is typically written in the present tense, while the previous chapters typically are written in past tense.
+
+\newpage
+		
+\section{Conclusion}
+In this chapter you end your report with a conclusion of your findings. What have you shown in your project? Are your results relevant for science, industry or society? How general are your results (i.e. can they be applied to other areas/problems as well)? Also discuss if anything in your project could have been done differently to possibly get better results. 
+
+This chapter is also written in present tense.
+
+\subsection{Future work}
+You cannot do everything within the limited scope of a degree project. Here you discuss what you would do if you had continued working on your project. Are there any open questions that you discovered during the project work that you didn't have time to investigate?
+
+\newpage
+
+
+%----------------------------------------------------------------------------------------
+%	References. IEEE style is used.
+%
+%----------------------------------------------------------------------------------------
+\newpage
+
+Here you shall include a list of all references used in your report. The reference list shall use the IEEE format. You can read about IEEE referencing \href{https://coursepress.lnu.se/subject/thesis-projects/ieee-references/}{here}. In the reference list below you can find examples of how to list a webpage \cite{courseroom}\cite{ieeeguide}, a journal article \cite{bigdata}, a book \cite{ai} and a conference proceeding (article) \cite{bigdata2}.
+
+\hypersetup{urlcolor=black}
+\bibliographystyle{IEEEtran}
+\bibliography{referenser}
+\newpage
+%----------------------------------------------------------------------------------------
+%	Appendix
+%-----------------------------------------------------------------------------------------
+\pagenumbering{Alph}
+\setcounter{page}{1} % Reset page numbering for Appendix
+\appendix
+
+\section{Appendix 1} 
+In the appendix you can put details that does not fit into the main report. Examples are source code, long tables with raw data and questionnaires.
+
+\end{document}
