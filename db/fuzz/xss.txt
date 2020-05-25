@@ -314,3 +314,43 @@ onReset
 onResize
 onSelect
 onSubmit
+<test
+<script
+<sc<sCrip>rip>
+<test//
+<script//
+<test>
+<script>
+<test x>
+<script x>
+<test x=y
+<script x= y
+<test x=y// 
+<script x=y//
+<test/oNxX=yYy//
+<script/oNxX=yYy//
+<test oNxX=yYy>
+<script oNxX=yYy>
+<test onload=x
+<script onload=x
+<test/o%00nload=x
+<script/o%00nload=x
+<test sRc=xxx
+<test data=asa
+<div data=asa
+<test data=javascript:asa
+<svg x=y>
+<details x=y//
+<a href=x//
+<emBed x=y>
+<object x=y//
+<bGsOund sRc=x>
+<iSinDEx x=y//
+<aUdio x=y>
+<script x=y>
+<script//src=//
+">payload<br/attr="
+"-confirm``-"
+<test ONdBlcLicK=x>
+<test/oNcoNTeXtMenU=x>
+<test OndRAgOvEr=x>

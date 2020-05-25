@@ -14,33 +14,35 @@ def parse():
         parsed args (list): list of parsed arguments
     """
     parser = argparse.ArgumentParser(
-        description="ProjectX WAF vulnerability scanning tool")
+        description="ProjectX WAF testing tool")
     parser.add_argument('-F', '--fuzz', action="store_true",
-                        help="scanning WAF using fuzzing")
+                        help="testing WAF using fuzzing")
     parser.add_argument('-xss', '--xss', action="store_true",
-                        help="scanning WAF by executing XSS payloads")
+                        help="testing WAF by executing XSS payloads")
     parser.add_argument('-sqli', '--sqli', action="store_true",
-                        help="scanning WAF by executing SQLi payloads")
+                        help="testin WAF by executing SQL payloads")
     parser.add_argument('-f', '--footprinting', action="store_true",
                         help="footprinting WAF using WAFWOOF")
     parser.add_argument('-t', '--target', type=str, required=True,
-                        help='target\'s url and "projectX" where the payloads be add.\nFor instance: -t "http://<YOUR_HOST>/?param=projectX"')
+                        help='target\'s url and "projectX" where the payloads will be replace.\nFor instance: -t "http://<YOUR_HOST>/?param=projectX"')
     parser.add_argument('-d', '--database', type=str,
                         help="Absolute path to file contain payloads. the tool will use the default database if -d is not given")
     parser.add_argument('-o', '--output', type=str,
                         help="Name of the output file ex -o output.html")
     parser.add_argument('-c', '--cookies', type=str,
-                        help='cookies for the secssion. Use "," (comma) to separeate cookies\nFor instance: -c "cookie1=asdferw, cookie2=wafsfpoe"')
+                        help='cookies for the secssion. Use "," (comma) to separeate cookies\nFor instance: -c cookie1="something",cookie2="something"')
     args = parser.parse_args()
 
+
+    print(type(args))
     target = args.target
     # check mode
     if args.footprinting: 
         return ['wafw00f', target]
     else:
-        out = validateOutput(args)
+        out = validate_output(args)
         cookies = args.cookies
-        path = validateDatabase(args)
+        path = validate_database(args)
         if args.fuzz:  # fuzzing
             return ['fuzz', target, path, out, cookies]
         elif args.xss:
@@ -49,7 +51,7 @@ def parse():
             return ['sqli', target, path, out, cookies]
 
 
-def validateDatabase(args):
+def validate_database(args):
     """validating given database
     
         check if the given database is exists, if not exists then the default database will be use
@@ -67,12 +69,12 @@ def validateDatabase(args):
             return args.database
         else:
             print('[!!] file not found: Using default payloads')
-            return getDefaultPath(args)
+            return get_defaultpath(args)
     else:
-        return getDefaultPath(args)
+        return get_defaultpath(args)
 
 
-def validateOutput(args): #to do: come upwith better defualt name
+def validate_output(args): #to do: come upwith better defualt name
     """validating output file name
     
         check if the output file exists, if not exists then it will use the given name
@@ -95,7 +97,7 @@ def validateOutput(args): #to do: come upwith better defualt name
         return Path(removeWhiteSpace(datetime.now())).resolve()
 
 
-def getDefaultPath(args):
+def get_defaultpath(args):
     """get defualt path to the database
     
         check tool mode then return the defualt path to database base on tool mode

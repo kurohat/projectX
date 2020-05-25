@@ -12,7 +12,7 @@ from itertools import cycle
 import json
 
 
-def writeResult(output, results):
+def write_results(output, results):
     """Writing result as a html file
     
         Using pandas to create a html table and save it as a html file
@@ -246,4 +246,4 @@ else:
         results = read_payload(mode, target, dbPath, header)
     print('[+] The result is save in %s' % output)
     #writing output as .html
-    writeResult(output, results)
+    write_results(output, results)
